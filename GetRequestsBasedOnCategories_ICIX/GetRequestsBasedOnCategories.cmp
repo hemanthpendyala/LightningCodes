@@ -1,0 +1,89 @@
+RahulTask01_openclosecon.cmp
+————————————————————————————
+<aura:component controller="RahulTask01_GetAllConversations" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="openallData" type="List" default="{1,2,3}"/>
+    <aura:attribute name="closeallData" type="List" default="{1,2,3}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- <aura:if isTrue="{!data.Status__c == Open}"> -->
+    <lightning:accordion>
+        <lightning:accordionSection label="Open">
+            <aura:iteration items="{!v.openallData}" var="data">
+               <!--  <aura:set attribute="actions"></aura:set> -->
+                <lightning:accordion>
+                    <lightning:accordionSection label="Accordion summary">
+                        <aura:set attribute="actions"></aura:set>
+                        <div class="slds-media__body">{!data.Status__c}
+                            <ul class="slds-list_horizontal slds-has-dividers_left">
+                                <div class="slds-text-title slds-text-color_weak">{!data.Internal_Phone__c}</div><br/>
+                                <div class="slds-text-title slds-text-color_weak">{!data.OwnerId}</div><br/>
+                                <div class="slds-text-title slds-text-color_weak">{!data.Recipient_Phone__c}</div><br/>
+                            </ul>
+                        </div>
+                        <aura:iteration items="{!data.SMS_Messages__r}" var="msg">
+                            {!msg.Message__c}<br/>
+                        </aura:iteration>
+                    </lightning:accordionSection>
+                </lightning:accordion>
+            </aura:iteration>
+        </lightning:accordionSection>
+        
+        <lightning:accordionSection label="Close">
+                <aura:iteration items="{!v.closeallData}" var="data">
+            </aura:iteration>
+        </lightning:accordionSection>
+    </lightning:accordion>
+    <!--  </aura:if> -->
+</aura:component>
+
+RahulTask01_opencloseconController.js
+—————————————————————————————————————
+({
+	doInit : function(component, event, helper) {
+		helper.fetchallconversations(component, event, helper);
+	}
+})
+
+RahulTask01_opencloseconHelper.cmp
+——————————————————————————————————
+({
+    fetchallconversations : function(component, event, helper) {
+        var action = component.get('c.getallconversation');
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            //alert(state);
+            //console.log('state ='+state);
+            if (component.isValid() && state === "SUCCESS") {
+                var result = response.getReturnValue();
+                //alert(result);
+                component.set("v.openallData", result.openConv);
+                component.set("v.closeallData", result.closedConv);
+                //console.log('v.accnList='+JSON.stringify(response.getReturnValue()));
+            }
+        })
+        $A. enqueueAction(action);
+    }
+})
+
+RahulTask01_GetAllConversations.apxc
+————————————————————————————————————
+public class RahulTask01_GetAllConversations {
+	//List<Convestation__c> conv = new List<Convestation__c>();
+    @AuraEnabled
+    public static WrapperClass getallconversation() {        
+        WrapperClass wrp = new WrapperClass();
+        wrp.openConv = [Select id, OwnerId, Status__c, Internal_Phone__c, Recipient_Phone__c, 
+                                      (select id, From_Phone__c, Convestation__c, Message__c from SMS_Messages__r) 
+                                      FROM Convestation__c where Status__c = 'Open'];
+        wrp.closedConv = [Select id, OwnerId, Status__c, Internal_Phone__c, Recipient_Phone__c, 
+                                      (select id, From_Phone__c, Convestation__c, Message__c from SMS_Messages__r) 
+                                      FROM Convestation__c where Status__c = 'Closed'];
+        return wrp;
+    }
+    
+    public class WrapperClass {
+        @AuraEnabled public List<Convestation__c> openConv;
+        @AuraEnabled public List<Convestation__c> closedConv;
+    }
+}
