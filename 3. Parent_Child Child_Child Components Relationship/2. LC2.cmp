@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="status" type="String"/>
+    Status :- {!v.status}
+    
+    <aura:attribute name="Eventsstatus" type="String"/>
+    <aura:handler event="c:compeventtest" action="{!c.handleApplicationEvent}"/>
+    Status :- {!v.Eventsstatus}
+</aura:component>

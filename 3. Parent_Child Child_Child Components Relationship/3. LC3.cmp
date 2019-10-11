@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="Eventsstatus" type="String"/>
+    <aura:registerEvent name="statusevent" type="c:compeventtest"/>
+        
+    <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Submit_a" onclick="{!c.changeStatus }"></lightning:button> <br/>
+    <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Submit_e" onclick="{!c.changeStatususingevent}"></lightning:button>
+    
+</aura:component>

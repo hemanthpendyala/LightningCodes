@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="status" type="String" default="First"/>
+    <aura:attribute name="eventstatus" type="String" default="First"/>
+    
+    <c:LC2 status="{!v.status}" Eventsstatus="{!v.eventstatus}"/>
+    <br/>
+    <c:LC3 status="{!v.status}" Eventsstatus="{!v.eventstatus}"/>
+</aura:component>
