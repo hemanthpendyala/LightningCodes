@@ -1,0 +1,42 @@
+public class TestAPIController {
+    
+    public Data data;
+
+    public class Data {
+        public Integer id;
+        public String email;
+        public String first_name;
+        public String last_name;
+        public String avatar;
+    }
+    @AuraEnabled
+    public static String fetchdata(String stdId){
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://reqres.in/api/users/'+stdId);
+        req.setMethod('GET');
+        Http binding = new Http();
+        HttpResponse res = binding.send(req);
+        
+        String temporaryRequestBody = res.getBody();
+        system.debug(temporaryRequestBody);
+        //List<String> arrTest = temporaryRequestBody.split(',');
+        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(temporaryRequestBody);
+        Map<String, Object> dim = (Map<String, Object>)body.get('data');
+        Integer return_Id = Integer.valueOf(dim.get('id'));
+        String return_email = String.valueOf(dim.get('email'));
+        String return_first_name = String.valueOf(dim.get('first_name'));
+        String return_last_name = String.valueOf(dim.get('last_name'));
+        String return_avatar = String.valueOf(dim.get('avatar'));
+        String result ='ID : '+return_Id+'\n'+'Email : '+return_email+'\n'+'First Name : '+return_first_name+'\n'+'Last Name : '+return_last_name+'\n'+'Image : '+return_avatar;
+        
+        Class__c cls = [Select id, name from Class__c where name = 'Hindi Class'];
+        Student__c std = new Student__c();
+        std.FirstName__c = String.valueOf(dim.get('first_name'));
+        std.LastName__c = String.valueOf(dim.get('last_name'));
+        std.Email__c = String.valueOf(dim.get('email'));
+        std.class__c = cls.id;
+        
+        insert std;
+        return result;
+    } 
+}

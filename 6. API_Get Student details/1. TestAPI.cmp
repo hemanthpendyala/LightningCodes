@@ -1,0 +1,6 @@
+<aura:component controller="TestAPIController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="stdData" type="String" default="Enter Id and Click Here"/>
+    <lightning:input type="text" aura:id="stdId" label="Enter Student Id" />
+    <lightning:button variant="brand" label="Get Data" title="Get Data" onclick="{! c.handleClick }" />
+    <pre>{!v.stdData}</pre>
+</aura:component>
