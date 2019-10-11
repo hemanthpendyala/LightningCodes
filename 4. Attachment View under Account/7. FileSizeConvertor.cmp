@@ -1,0 +1,48 @@
+<aura:component controller="FileUploaderController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="searchData" type="String" default=""/>
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="lastModifyDate" type="String" default="21/07/2019"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:FileUploaderSearchDataEvent" action="{!c.searchKeyChange}"/>
+
+    <p><lightning:formattedText value="The Contact List for this Account was last updated on: " />{!v.lastModifyDate}</p>
+    <input type="text" class="form-control slds-lookup__search-input slds-input" onkeyup="{!c.searchKey}" placeholder="Search Contacts"/>
+
+    <aura:iteration items="{!v.allData}" var="data">
+    <lightning:card title="Contact Details" iconName="standard:case" variant="base">
+    <aura:set attribute="actions">
+        <lightning:buttonGroup class="slds-button-group-row">
+                <div class="slds-button-group-item">
+                    <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" title="{!data.Id}" label="Open" onclick="{!c.Openbutton}"></lightning:button>
+                </div>
+                <div class="slds-button-group-item">
+                    <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" title="{!data.Id}" label="Edit" onclick="{!c.Editbutton}"></lightning:button>
+                </div>
+                <div class="slds-button-group-item">
+                    <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" title="{!data.Id}" label="Delete" onclick="{!c.Deletebutton}"></lightning:button>
+                </div>
+        </lightning:buttonGroup>
+    </aura:set>
+    <div class="slds-card__body_inner">
+        <lightning:layout>
+            <lightning:layoutItem size="6">
+                <div class="slds-form-element   "><span class="slds-form-element__label">Contact Name</span>
+                    <div class="slds-form-element__control"><span class="slds-form-element__static">{!data.Name}</span></div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <div class="slds-form-element   "><span class="slds-form-element__label">Email</span>
+                    <div class="slds-form-element__control"><span class="slds-form-element__static">{!data.Email}</span></div>
+                </div>
+                <div class="slds-form-element   "><span class="slds-form-element__label">Contact Number</span>
+                    <div class="slds-form-element__control"><span class="slds-form-element__static">{!data.Phone}</span></div>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    </lightning:card>  
+    </aura:iteration>
+    <div align="center"><lightning:button class="slds-theme_neutral" variant="neutral" type="button" label="New Contact" onclick="{!c.CreateContact}"/></div>
+</aura:component>
