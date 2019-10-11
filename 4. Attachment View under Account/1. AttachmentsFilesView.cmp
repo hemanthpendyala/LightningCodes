@@ -1,0 +1,140 @@
+<aura:component controller="FileUploaderController2" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="searchData" type="String" default=""/>
+    <aura:attribute name="sortingOrder" type="String" default="asc"/>
+    <aura:attribute name="sortType" type="String" default="Title"/>
+    <aura:attribute name="recordLimit" type="String"/>
+    <aura:attribute name="noOfRecords" type="Integer" default="0"/>
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="imageData" type="List"/>
+    <aura:attribute name="filesData" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler event="c:SearchKeyChange" action="{!c.searchKeyChange}"/>
+    
+    <div class="color-white">
+        <div class="slds-m-bottom_small slds-page-header color-white">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:file" size="small" variant="slds-icon-inverse"/>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-page-header__title slds-text-heading_small">Attachments ({!v.noOfRecords})</div>
+                </div>
+            </div> 
+            
+            <div class="slds-input-has-icon slds-input-has-icon--left">
+                <lightning:buttonIcon iconName="utility:search" variant="bare" onclick="{!c.searchKey }" alternativeText="Search attachments" class="slds-input__icon" />
+                <input type="text" class="form-control slds-lookup__search-input slds-input" onkeyup="{!c.searchKey}" placeholder="Search attachments"/>
+            </div>
+            
+            <ul class="slds-list_horizontal slds-m-bottom_medium">
+                <li>
+                    <span><b>SORT BY:</b></span>
+                </li>
+                <li class="pointer-cursor">
+                    <span aura:id="Title" class="{! v.sortType == 'Title' ? 'slds-m-left_small cursor-pointer active-item' : 'slds-m-left_small cursor-pointer'}" onclick="{!c.sortDataByName}">Name <lightning:icon class="{! v.sortType == 'Title' ? '' : 'hide'}" iconName="{! v.sortingOrder == 'asc' ? 'utility:arrowup' : 'utility:arrowdown'}" size="xx-small" alternativeText="Name Sort"/></span>
+                </li>
+                <li class="pointer-cursor">
+                    <span aura:id="Date" class="{! v.sortType == 'CreatedDate' ? 'slds-m-left_small cursor-pointer active-item' : 'slds-m-left_small cursor-pointer'}" onclick="{!c.sortDataByDate}">Date <lightning:icon class="{! v.sortType == 'CreatedDate' ? '' : 'hide'}" iconName="{! v.sortingOrder == 'asc' ? 'utility:arrowup' : 'utility:arrowdown'}" size="xx-small" alternativeText="Date Sort"/></span>
+                </li>
+                <li class="pointer-cursor">
+                    <span aura:id="Size" class="{! v.sortType == 'ContentSize' ? 'slds-m-left_small cursor-pointer active-item' : 'slds-m-left_small cursor-pointer'}" onclick="{!c.sortDataBySize}">Size <lightning:icon class="{! v.sortType == 'ContentSize' ? '' : 'hide'}" iconName="{! v.sortingOrder == 'asc' ? 'utility:arrowup' : 'utility:arrowdown'}" size="xx-small" alternativeText="Size Sort"/></span>
+                </li>
+                <li class="pointer-cursor">
+                    <span aura:id="Type" class="{! v.sortType == 'FileType' ? 'slds-m-left_small cursor-pointer active-item' : 'slds-m-left_small cursor-pointer'}" onclick="{!c.sortDataByType}">Type <lightning:icon class="{! v.sortType == 'FileType' ? '' : 'hide'}" iconName="{! v.sortingOrder == 'asc' ? 'utility:arrowup' : 'utility:arrowdown'}" size="xx-small" alternativeText="Type Sort"/></span>
+                </li>
+            </ul>
+            
+            <lightning:tabset variant="scoped">
+                <lightning:tab id="All" label="All">
+                    <aura:if isTrue="{!empty(v.allData)}">
+                        No Attachments Found
+                    </aura:if>
+                    <lightning:buttonGroup>
+                        <ui:inputCheckbox aura:id="chkAll" label="Select All" change="{!c.selectAll}"/>&nbsp;
+              <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Download" onclick="{!c.downloadSelected }"></lightning:button>
+              <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Delete" onclick="{!c.deleteSelected }"></lightning:button>
+                    </lightning:buttonGroup><br/><br/>
+                    <aura:iteration items="{!v.allData}" var="data">
+                        <div class="slds-media" style="margin-bottom:5px">
+                            <ui:inputCheckbox aura:id="allDataChk" name="{!data.Id}" value="" change="{!c.selectIndv}"/> &nbsp;&nbsp;
+                            <div class="slds-media__figure">
+                                <aura:if isTrue="{! data.FileType == 'JPEG' || data.FileType == 'JPG' || data.FileType == 'PNG' || data.FileType == 'GIF' || data.FileType == 'BMP'}">
+                                    <lightning:icon iconName="doctype:image" size="medium" variant="slds-icon-inverse"/>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{! data.FileType == 'PDF'}">
+                                            <lightning:icon iconName="doctype:pdf" size="medium" variant="slds-icon-inverse"/>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{! data.FileType == 'TEXT'}">
+                                                    <lightning:icon iconName="doctype:txt" size="medium" variant="slds-icon-inverse"/>
+                                                    <aura:set attribute="else">
+                                                        <lightning:icon iconName="doctype:unknown" size="medium" variant="slds-icon-inverse"/>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if> 
+                            </div>                
+                            <div class="slds-media__body">
+                                <div class="slds-text-heading_small"><a title="{!data.Id}" type="All" onclick="{!c.preview }">{!data.Title}</a></div>
+                                <a href="{!'/sfc/servlet.shepherd/document/download/'+data.Id}" target="_blank">Download</a>
+                                <ul class="slds-list_horizontal slds-has-dividers_left">
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> <ui:outputDate value="{!data.CreatedDate}"/> </div> </li>
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> <c:FileSizeConvertor originalSize="{!data.ContentSize}"/> </div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </lightning:tab>
+                <lightning:tab id="Images" label="Images">
+                    <aura:if isTrue="{!empty(v.imageData)}">
+                        No Attachments Found
+                    </aura:if>
+                    <aura:iteration items="{!v.imageData}" var="idata">
+                        <div class="slds-media" style="margin-bottom:5px">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="doctype:image" size="medium" variant="slds-icon-inverse"/>
+                            </div>                
+                            <div class="slds-media__body">
+                                <div class="slds-text-heading_small"><a title="{!idata.Id}" type="All" onclick="{!c.preview }">{!idata.Title}</a></div>
+                                <ul class="slds-list_horizontal slds-has-dividers_left">
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> <ui:outputDate value="{!idata.CreatedDate}"/> </div> </li>
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> {!idata.ContentSize} </div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </lightning:tab>
+                <lightning:tab id="Files" label="Files">
+                    <aura:if isTrue="{!empty(v.filesData)}">
+                        No Attachments Found
+                    </aura:if>
+                    <aura:iteration items="{!v.filesData}" var="fdata">
+                        <div class="slds-media" style="margin-bottom:5px">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="doctype:pdf" size="medium" variant="slds-icon-inverse"/>
+                            </div>                
+                            <div class="slds-media__body">
+                                <div class="slds-text-heading_small"><a title="{!fdata.Id}" type="All" onclick="{!c.preview }">{!fdata.Title}</a></div>
+                                <ul class="slds-list_horizontal slds-has-dividers_left">
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> <ui:outputDate value="{!fdata.CreatedDate}"/> </div> </li>
+                                    <li class="slds-item"><div style="font-size: 0.8125rem;"> {!fdata.ContentSize} </div></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </lightning:tab>
+            </lightning:tabset>
+            <lightning:layout horizontalAlign="spread" verticalAlign="center">
+                <lightning:layoutItem></lightning:layoutItem>
+                <lightning:layoutItem>
+                    <lightning:button class="slds-m-right_x-small slds-theme_neutral" variant="neutral" label="Show All" onclick="{!c.showAll}"></lightning:button>
+                    <lightning:fileUpload name="fileUploader" multiple="true"
+                                          recordId="{!v.recordId}" onuploadfinished="{!c.doInit}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </div>
+</aura:component>

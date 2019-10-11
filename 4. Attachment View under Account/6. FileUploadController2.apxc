@@ -1,0 +1,60 @@
+public class FileUploaderController2 {
+    @AuraEnabled
+    public static FileDataWrapper fetchAllData(String recId, String recLimit, String searchKey, 
+                                               String sortOrder, String sortType) {
+        List<ContentDocumentLink> ConList = [select ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: recId];
+        Set<Id> conIds = new Set<Id>();
+        for(ContentDocumentLink con : conList){
+            conIds.add(con.ContentDocumentId);
+        }
+        
+        List<String> imageTypes = new List<String>{'JPG', 'JPEG', 'PNG', 'GIF', 'BMP'};
+        String title = '%' + searchKey + '%';
+        String query1;
+        if(recLimit == 'All'){
+            query1 = 'SELECT Id, Title, FileType, CreatedDate, ContentSize FROM ContentDocument WHERE Id IN :conIds AND Title LIKE :title ORDER BY '+sortType+' '+sortOrder;
+            system.debug('Hem1' +query1);
+        } else {
+            query1 = 'SELECT Id, Title, FileType, CreatedDate, ContentSize FROM ContentDocument WHERE Id IN :conIds AND Title LIKE :title ORDER BY '+sortType+' '+sortOrder+' LIMIT '+Integer.valueOf(recLimit);
+        }
+
+        String query2 = 'SELECT Id, Title, FileType, CreatedDate, ContentSize FROM ContentDocument WHERE Id IN :conIds AND Title LIKE :title AND FileType IN :imageTypes ORDER BY '+sortType+' '+sortOrder;
+        String query3 = 'SELECT Id, Title, FileType, CreatedDate, ContentSize FROM ContentDocument WHERE Id IN :conIds AND Title LIKE :title AND FileType NOT IN :imageTypes ORDER BY '+sortType+' '+sortOrder;
+        List<ContentDocument> allDataList = database.query(query1);
+        List<ContentDocument> imageDataList = database.query(query2);
+        List<ContentDocument> filesDataList = database.query(query3);
+        //system.debug('HEM' + allDataList);
+        FileDataWrapper wrapper = new FileDataWrapper();
+        wrapper.noOfRecords = allDataList.size();
+        wrapper.allData = allDataList;
+        wrapper.imageData = imageDataList;
+        wrapper.filesData = filesDataList;
+        return wrapper;
+    }
+    class FileDataWrapper {
+        @AuraEnabled public Integer noOfRecords;
+        @AuraEnabled public List<ContentDocument> allData;
+        @AuraEnabled public List<ContentDocument> imageData;
+        @AuraEnabled public List<ContentDocument> filesData;
+    }
+    @AuraEnabled
+    public static void deleteRecords(List<String> lstRecordId) {
+        /*List <String> oErrorMsg = new List <String> ();
+        List<ContentDocumentLink> ConDocs = [Select Id from ContentDocumentLink where ID =:lstRecordId];
+        Database.DeleteResult[] DR_Dels = Database.delete(ConDocs, false);
+        for (Database.DeleteResult dr: DR_Dels) {
+            if (dr.isSuccess()) {
+                system.debug('successful delete contact');
+            } else {
+                oErrorMsg.add('');
+                for (Database.Error err: dr.getErrors()) {
+                // add Error message to oErrorMsg list and return the list
+                oErrorMsg.add(err.getStatusCode() + ': ' + err.getMessage());
+                }
+            }
+        }
+        return oErrorMsg;*/
+        system.debug('lstRecordId : '+lstRecordId);
+        delete [Select Id from ContentDocument where ID =:lstRecordId];
+    }
+}
