@@ -1,0 +1,38 @@
+public class FileUploaderController {
+    @AuraEnabled
+    public static List<Contact> fetchAllData(String recId, String searchKey) {
+      //  List<Contact> conList = [SELECT Id, name FROM Contact WHERE AccountId =: recId];
+        
+      String conName = '%' + searchKey + '%';
+      String query1 = 'Select Id, email, phone, name from Contact where AccountId =: recId AND Name LIKE :conName';
+      List<Contact> allDataList = database.query(query1);
+      return allDataList;
+    }
+    
+    @AuraEnabled
+    public static WrapperClass deleteContactApex(String recId, String cId) {
+      delete [Select Id FROM Contact Where Id =: cId];
+      List<Contact> conList = [SELECT Id, email, phone, name FROM Contact WHERE AccountId =: recId];
+      
+        ModificationDate__c mDate = [Select Id, Last_Modify_date__c From ModificationDate__c limit 1];
+        mDate.Last_Modify_date__c = Date.today();
+        update mdate;
+      
+        WrapperClass wrapper = new WrapperClass();
+        wrapper.modifyDate = String.valueOf(Date.today());
+        wrapper.conList = conList;
+      return wrapper;
+    }
+    
+    @AuraEnabled
+    public static void deleteContactApexNew(String cId) {
+      delete [Select Id FROM Contact Where Id =: cId];
+    }
+       
+    
+    public class WrapperClass{
+        @AuraEnabled public String modifyDate;
+        @AuraEnabled public List<Contact> conList;
+    }
+    
+}
