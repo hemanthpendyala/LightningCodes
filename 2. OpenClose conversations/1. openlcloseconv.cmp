@@ -1,0 +1,36 @@
+<aura:component controller="RahulTask01_GetAllConversations" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="openallData" type="List" default="{1,2,3}"/>
+    <aura:attribute name="closeallData" type="List" default="{1,2,3}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- <aura:if isTrue="{!data.Status__c == Open}"> -->
+    <lightning:accordion>
+        <lightning:accordionSection label="Open">
+            <aura:iteration items="{!v.openallData}" var="data">
+               <!--  <aura:set attribute="actions"></aura:set> -->
+                <lightning:accordion>
+                    <lightning:accordionSection label="Accordion summary">
+                        <aura:set attribute="actions"></aura:set>
+                        <div class="slds-media__body">{!data.Status__c}
+                            <ul class="slds-list_horizontal slds-has-dividers_left">
+                                <div class="slds-text-title slds-text-color_weak">{!data.Internal_Phone__c}</div><br/>
+                                <div class="slds-text-title slds-text-color_weak">{!data.OwnerId}</div><br/>
+                                <div class="slds-text-title slds-text-color_weak">{!data.Recipient_Phone__c}</div><br/>
+                            </ul>
+                        </div>
+                        <aura:iteration items="{!data.SMS_Messages__r}" var="msg">
+                            {!msg.Message__c}<br/>
+                        </aura:iteration>
+                    </lightning:accordionSection>
+                </lightning:accordion>
+            </aura:iteration>
+        </lightning:accordionSection>
+        
+        <lightning:accordionSection label="Close">
+                <aura:iteration items="{!v.closeallData}" var="data">
+            </aura:iteration>
+        </lightning:accordionSection>
+    </lightning:accordion>
+    <!--  </aura:if> -->
+</aura:component>

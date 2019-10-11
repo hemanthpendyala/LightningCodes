@@ -1,0 +1,19 @@
+public class RahulTask01_GetAllConversations {
+  //List<Convestation__c> conv = new List<Convestation__c>();
+    @AuraEnabled
+    public static WrapperClass getallconversation() {        
+        WrapperClass wrp = new WrapperClass();
+        wrp.openConv = [Select id, OwnerId, Status__c, Internal_Phone__c, Recipient_Phone__c, 
+                                      (select id, From_Phone__c, Convestation__c, Message__c from SMS_Messages__r) 
+                                      FROM Convestation__c where Status__c = 'Open'];
+        wrp.closedConv = [Select id, OwnerId, Status__c, Internal_Phone__c, Recipient_Phone__c, 
+                                      (select id, From_Phone__c, Convestation__c, Message__c from SMS_Messages__r) 
+                                      FROM Convestation__c where Status__c = 'Closed'];
+        return wrp;
+    }
+    
+    public class WrapperClass {
+        @AuraEnabled public List<Convestation__c> openConv;
+        @AuraEnabled public List<Convestation__c> closedConv;
+    }
+}
