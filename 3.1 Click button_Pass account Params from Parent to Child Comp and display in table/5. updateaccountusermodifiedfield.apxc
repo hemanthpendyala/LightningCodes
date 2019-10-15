@@ -1,0 +1,15 @@
+public class updateaccountusermodifiedfield {
+    @AuraEnabled
+    public static void updateaccountfield(String Id) {
+        Account acc = [Select id, name, User_updated__c from Account where Id =:Id];
+        acc.User_updated__c = True;
+        update acc;
+    }
+    @AuraEnabled
+    public static String getaccountusermodfield(String Id) {
+        Account acc = [Select id, name, User_updated__c from Account where Id =:Id];
+        String usermodstatus = String.ValueOf(acc.User_updated__c);
+        return usermodstatus;
+    }
+    
+}

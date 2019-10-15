@@ -1,0 +1,17 @@
+<aura:component controller="updateaccountusermodifiedfield" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+  <lightning:button class="slds-theme_neutral" iconPosition="left" variant="neutral" type="button" label="Table View" onclick="{!c.passidtochild}"></lightning:button>
+    
+    <aura:attribute name="showhidechildcomp" type="Boolean" default="false"/>
+    <aura:attribute name="accusermodstatus" type="Boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.showhidechildcomp}">
+        <aura:if isTrue="{!v.accusermodstatus}">
+        <c:Accounteditchildcomp recordid="{!v.recordId}"/>
+        </aura:if>
+    </aura:if>
+    
+</aura:component>
+
+ <!-- <aura:if isTrue="{!(v.accusermodstatus)==false}"> 
+
+  -->
