@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+  <aura:attribute name="Reclist" type="sObject[]"/>
+    <aura:attribute name="columns" type="List" default="[{'label':'ID','fieldName':'Id','type':'text'}, {'label':'Name','fieldName':'Name','type':'text'}]" />
+    
+    <lightning:datatable columns="{!v.columns}" data="{!v.Reclist}" keyField="Id"/>
+</aura:component>
