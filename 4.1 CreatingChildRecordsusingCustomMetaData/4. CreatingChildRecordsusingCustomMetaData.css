@@ -1,0 +1,8 @@
+.THIS .spacing {
+    padding : 30px;
+    margin : 30px;
+    border: 4px dotted blue;
+}
+.THIS .slds-button_icon-bare{
+display: none;
+}

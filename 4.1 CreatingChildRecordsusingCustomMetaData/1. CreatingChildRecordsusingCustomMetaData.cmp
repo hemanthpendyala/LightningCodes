@@ -1,0 +1,45 @@
+<aura:component controller="RahulTask02_CustomMetaDataRecords" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="Obj" type="Object"/>
+    <aura:attribute name="Objlist" type="List"/>
+    <aura:attribute name="Objvalue" type="String"/>
+    <aura:attribute name="setChkBox" type="Boolean" default="false"/>
+    <aura:attribute name="Reclist" type="sObject[]"/>
+    <aura:attribute name="columns" type="List" default="[{'label':'ID','fieldName':'Id','type':'text'}, {'label':'Name','fieldName':'Name','type':'text'}]" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:layout >
+        <lightning:layoutItem padding="around-small" class="spacing">
+            <lightning:select aura:id = "picValue" variant="standard" name="select1" label="Select the Object" required="true" onchange="{!c.OnSelect}">
+                <option value="">choose one...</option>
+                <aura:iteration items="{!v.Objlist}" var="Objlst">
+                    <option value="{!Objlst}"> {!Objlst} </option>
+                </aura:iteration>
+            </lightning:select><br/>
+            
+            <lightning:input aura:id="inputNumber" placeholder="Input Number" type="number" variant="standard" name="input2" label="Number field with a predefined value" value="{!v.Obj.Min__c}" max="{!v.Obj.Max__c}" min="{!v.Obj.Min__c}" step="1"/><br/>
+            
+            <ui:inputCheckbox aura:id="checkbox" label="Create Child Records" value="{!v.setChkBox}"/><br/>
+            
+            <aura:if isTrue="{!v.Objvalue == 'Account'}">
+                <lightning:recordEditForm onsuccess="{!c.handleAccountSuccess}" objectApiName="Account">
+                    <lightning:inputField fieldName="Name" /><br/>
+                    <div class="slds-m-top_medium">
+                        <lightning:button variant="brand" type="submit" name="save" label="Save" />
+                    </div>
+                </lightning:recordEditForm>
+            </aura:if>
+            <aura:if isTrue="{!v.Objvalue == 'Contact'}">
+                <lightning:recordEditForm onsuccess="{!c.handleContactSuccess}" objectApiName="Contact">
+                    <lightning:inputField fieldName="LastName" /><br/>
+                    <div class="slds-m-top_medium">
+                        <lightning:button variant="brand" type="submit" name="save" label="Save" />
+                    </div>
+                </lightning:recordEditForm>
+            </aura:if>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+    <lightning:datatable columns="{!v.columns}" data="{!v.Reclist}" keyField="Id"/>
+</aura:component>

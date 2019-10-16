@@ -1,0 +1,40 @@
+public class RahulTask02_CustomMetaDataRecords {
+    @AuraEnabled
+    public static Rahul_Req02__mdt CMDRecords() {
+        Rahul_Req02__mdt RecList = [Select id, ObjectList__c, Min__c, Max__c, IsChildRecordCreate__c from Rahul_Req02__mdt LIMIT 1];
+        return RecList;
+    }
+    
+    @AuraEnabled
+    public static List<Account> createAccChildRec(String recId, String inputNumber) {
+        Account acc01 = [Select id, name from Account where Id  =:recId];
+        List<Account> accList = new List<Account>();
+        for(Integer i = 1; i <= Integer.valueOf(inputNumber); i++) {
+            Account acc = new Account();
+            acc.Name = acc01.Name + i; //'Account'+i; 
+            acc.ParentId = recId;
+            accList.add(acc);
+        }
+        if(accList.size() > 0) {
+            insert accList;         
+        }
+      
+        return [select id, Name from Account where ParentId =:recId OR ID= :recId];  
+    }
+    
+    @AuraEnabled
+    public static List<Contact> createConChildRec(String recId, String inputNumber) {
+        Contact con01 = [Select id, name from Contact where Id  =:recId];
+        List<Contact> conList = new List<Contact>();
+        for(Integer i = 1; i <= Integer.valueOf(inputNumber); i++) {
+            Contact con = new Contact();
+            con.LastName = con01.Name + i; //'Contact'+i; 
+            con.ReportsToId = recId;
+            conList.add(con);
+        }
+        if(conList.size() > 0) {
+            insert conList;         
+        }
+       return [select id, Name from Contact where ReportsToId =:recId OR ID= :recId];   
+    }
+}
