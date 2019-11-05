@@ -1,0 +1,9 @@
+<aura:component Extends="c.ExtensibleComp" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <!-- <ltng:require scripts="{!$Resource.SampleJS}" /> -->
+    <ltng:require styles="{!$Resource.SampleCSS}" />
+    <img src="{!$Resource.DisplayPic}" height="100" width="100"/>
+    <div class="blockquote"> 
+        Hemanth Practise Resource
+    </div>
+    Child Component Value: {!v.Value01}
+</aura:component>

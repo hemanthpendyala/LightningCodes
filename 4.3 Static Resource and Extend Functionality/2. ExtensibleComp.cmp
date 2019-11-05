@@ -1,0 +1,5 @@
+<aura:component Extensible="true" implements="force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="Value01" type="String" default="Hemanth"/>
+    Parent Component Value: {!v.Value01} <br/>
+    {!v.body}
+</aura:component>
