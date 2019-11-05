@@ -1,4 +1,0 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
-  <lightning:button aura:id = "Button01" name="Click here01" label="Button01" onclick="{!c.Controller01}"/>
-    <lightning:button aura:id = "Button02" name="Click here02" label="Button02" onclick="{!c.Controller01}"/>
-</aura:component>
