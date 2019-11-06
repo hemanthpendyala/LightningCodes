@@ -1,0 +1,18 @@
+trigger RetrictStudent on Student__c (before insert, before update) {
+    
+    List<Class__c> cls01 = [Select id, Max_Size__c, NumberOfStudents__c, (select id from Students__r) from Class__c];
+    
+    map<Id, Integer> classes = new map<Id, Integer>();
+    map<Id, Integer> classmaxsize = new map<Id, Integer>();
+    
+    for(Class__c cls : cls01) {
+        classes.put(cls.Id, cls.Students__r.size());
+        classmaxsize.put(cls.Id, Integer.ValueOf(cls.Max_Size__c));
+    }
+
+    for(Student__c std : Trigger.new) {
+        if(classes.get(std.class__c) == classmaxsize.get(std.class__c)) {
+            std.adderror('Student limit is reached. Please join another classs');
+        }
+    }
+}

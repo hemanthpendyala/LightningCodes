@@ -1,0 +1,10 @@
+trigger RestrictTeacher on Contact (before insert, before update) {
+  //List<Contact> Teachers = [Select Id, Name, Subjects__c from Contact where Subjects__c = 'Hindi'];
+    for(Contact con: Trigger.New) {
+        if(con.Subjects__c != null) {
+        if(con.Subjects__c.contains('Hindi')) {
+            con.Subjects__c.addError('Cannot insert Teacher with Hindi Subject');
+        }
+        }
+    }
+}
