@@ -1,0 +1,61 @@
+trigger IncreaseClassMyCount on Student__c (after insert, after update, after delete) {
+    //Trick: While updating same object fields using same trigger, use BEFORE trigger. If updating other object fields based on this logic, use After Trigger
+    //Master-detail relationships are editable on creation only. You can not change the master of a detail record after creation. 
+    //This is the design of master-detail relationships. To make the field editable when editing a record, 
+    //it has to be a lookup relationship.
+    if(Trigger.isInsert) {
+    Map<Id, Class__c> clsMap = new Map<Id, Class__c>([select id, My_Count__c from Class__c]);
+    
+    List<Class__c> clsList = new List<Class__c>();
+    for(Student__c std : Trigger.New){
+        Class__c cls = clsMap.get(std.Class__c);
+        cls.My_Count__c = cls.My_Count__c + 1;
+        clsList.add(cls);
+    }
+    update clsList;
+    }
+    
+    if(Trigger.isDelete) {
+        Map<Id, Class__c> clsMap = new Map<Id, Class__c>([Select id, My_Count__c from Class__c]);
+        List<Class__c> clsupdate= new List<Class__c>();
+        for(Student__c std : Trigger.Old){
+            Class__c cls = clsMap.get(std.Class__c);
+            cls.My_Count__c = cls.My_Count__c - 1;
+            clsupdate.add(cls);
+        }
+        update clsupdate;
+    }    
+    
+    /*
+    if(Trigger.isUpdate) {
+        
+        List<Id> classIncreaseCount = new List<Id>();
+        List<Id> classReduceCount = new List<Id>();
+        
+        for(Student__c std : Trigger.New) {
+            Student__c oldstdclass = Trigger.oldMap.get(std.Class__c);
+            if(oldstdclass.Class__c != std.Class__c) {
+                if(std.Class__c == null) {
+                    if(oldstdclass.Class__c != null) {
+                        classReduceCount.add(oldstdclass.Class__c);
+                    }
+                    else {
+                        classIncreaseCount.add(std.Class__c);
+                    }
+                }
+            }
+        }
+        List<Class__c> incclasscount = [select id, My_Count__c from Class__c where Id =:classIncreaseCount];
+        List<Class__c> decclasscount = [select id, My_Count__c from Class__c where Id =:classReduceCount];
+        List<Class__c> finalclasscount = new List<Class__c>();
+        for(Class__c incclass : incclasscount) {
+            incclass.My_Count__c++;
+            finalclasscount.add(incclass);
+        }
+        for(Class__c decclass : decclasscount) {
+            decclass.My_Count__c--;
+            finalclasscount.add(decclass);
+        }
+        update finalclasscount;
+    } */
+}
