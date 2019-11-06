@@ -1,0 +1,60 @@
+public without sharing class updateAccountSalesRepfield {
+    
+    public updateAccountSalesRepfield() {}
+    
+    public void handleBeforeInsert(List<Account> acc) {        
+        updateSalesRepBeforeInsert(acc);
+        //method2
+        //method3
+        //......
+        //......
+    }    
+   
+    public void handleBeforeUpdate(Map<Id,Account> newMap,Map<Id,Account> oldMap) {
+        updateSalesRepBeforeInsert(newMap.values());
+    }
+    //Create “Sales Rep” field with data type (Text) on the Account Object. When we create the Account record, 
+    //the Account Owner will be automatically added to Sales Rep field. 
+    //When we update the Account owner of the record, then also the Sales Rep will be automatically updated.
+    public static void updateSalesRepBeforeInsert(List<Account> acc) {
+        List<ID> usersIds = new List<ID>();
+        for(Account accts : acc) {
+            usersIds.add(accts.OwnerId);
+        }
+        Map<Id, user> users = new Map<Id, user>([Select id, name from User where Id in :usersIds]);
+        for(Account accts : acc) {
+            // accts.Sales_Rep__c = accts.Owner.Name; //for getting user details, this step is enough.
+            User usr = users.get(accts.OwnerId);
+            accts.Sales_Rep__c = usr.Name;
+        }
+    }
+}
+
+trigger updateAccountSalesRepfield on Account (before insert, before update, before delete, after insert, after update, after delete) {
+    
+    updateAccountSalesRepfield updateacc = new updateAccountSalesRepfield();
+    
+     if (Trigger.isBefore) {
+        if (Trigger.isInsert) {
+            updateacc.handleBeforeInsert(Trigger.new);
+        }
+        else if (Trigger.isUpdate) {
+            updateacc.handleBeforeUpdate(Trigger.newMap,Trigger.oldMap);
+            //THC.handleBeforeUpdate(Trigger.newMap,Trigger.oldMap);
+        }
+        else if (Trigger.isDelete) {
+            //THC.handleBeforeDelete(Trigger.old);
+        }        
+    }
+    else if (Trigger.isAfter) {
+        if (Trigger.isInsert) {
+            //THC.handleAfterInsert(Trigger.newMap);
+        }    
+        else if (Trigger.isUpdate) {
+            //THC.handleAfterUpdate(Trigger.newMap,Trigger.oldMap);
+        }
+        else if (Trigger.isDelete) {
+            //THC.handleAfterDelete(Trigger.oldMap);
+        }        
+    }
+}

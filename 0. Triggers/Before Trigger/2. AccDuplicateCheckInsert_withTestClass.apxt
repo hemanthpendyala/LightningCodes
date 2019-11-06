@@ -1,0 +1,52 @@
+/*
+The following Trigger will fires when we try to create the account with same name 
+i.e. Preventing the users to create Duplicate Accounts
+*/
+trigger Preventduplicateaccount on Account (before insert, before update) {
+    
+    List<Account> allAcc = [Select id, name from Account];
+    Map<String, id> mapAcc = new Map<String, id>();
+    for(Account acc01 : allAcc) {
+        mapAcc.put(acc01.Name, acc01.Id);
+    }
+    for(Account acc : Trigger.New) {
+        if(mapAcc.containsKey(acc.Name)) {
+            acc.Name.addError('Cannot add duplicate account');
+        }else {
+            acc.Hello__c = 'World';
+            acc.Name = 'Dr '+acc.Name;
+        }
+    }
+}
+
+@isTest
+public class TC_Preventduplicateaccounttrigger {
+    @isTest
+    public static void menthod01() {
+        Account acc = new Account();
+        acc.Name = 'HemanthNewAccount';
+        acc.Active__c = 'Yes';
+        acc.SLA__c = 'Gold';
+        acc.SLAExpirationDate__c = Date.today();
+        acc.SLASerialNumber__c = '765';
+        insert acc;
+        Account fetchacc = [Select id, name, Hello__c from Account];
+        System.assert(fetchacc.Hello__c == 'World');
+        //System.assert(fetchacc.Name == 'Dr HemanthNewAccount');
+        //System.assert(fetchacc.Name.contains('Dr'));
+        System.assertEquals('Dr HemanthNewAccount', fetchacc.Name);
+        
+        Account acc01 = new Account();
+        acc01.Name = 'HemanthNewAccount';
+        acc01.Active__c = 'Yes';
+        acc01.SLA__c = 'Gold';
+        acc01.SLAExpirationDate__c = Date.today();
+        acc01.SLASerialNumber__c = '765';
+        try {
+            insert acc01;  
+        }
+        catch(Exception e) {
+            system.assert(e.getMessage().contains('Cannot add duplicate account'),e.getMessage());
+        }
+    }
+}

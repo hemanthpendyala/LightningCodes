@@ -1,0 +1,29 @@
+trigger updateCROwnerName on Contact_Relationship__c (before insert, before update, before delete, after insert, after update, after delete) {
+    if(Trigger.isBefore) {
+        if(Trigger.isInsert) {
+            
+        } else if(Trigger.isUpdate) {
+             //When we change the Owner of the Contact Relationship, 
+           //then the Owner name will be automatically populated in the Contact Relationship Name field.
+            for(Contact_Relationship__c cr : Trigger.New) {
+                system.debug('##Hem01##'+ cr.OwnerId);
+                system.debug('##Hem02##'+ Trigger.oldMap.get(cr.Id).OwnerId);
+                if(cr.OwnerId != Trigger.oldMap.get(cr.Id).OwnerId) {
+                    system.debug('##Hem03##'+ cr.Owner.Name);
+                    //cr.Name = cr.Owner.Name;
+                    cr.Name = [Select id, name from User where Id = :cr.OwnerId].name;
+                }
+            }
+        } else if(Trigger.isDelete) {
+            
+        }
+    } else if(Trigger.isAfter) {
+        if(Trigger.isInsert) {
+            
+        } else if(Trigger.isUpdate) {
+
+        } else if(Trigger.isDelete) {
+            
+        }
+    }
+}

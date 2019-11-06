@@ -1,0 +1,15 @@
+trigger BookPricediscount on Books__c (before insert, before update) {
+    for(Books__c bk : Trigger.New) {
+        
+        //bk.Price__c = 2 * bk.Price__c;
+
+        if(bk.Price__c > 5000) {
+            bk.Discount__c  = (50.0/100.0)*bk.Price__c;
+            //system.debug('checkCal' + (50/100)*bk.Price__c);
+        } else if(bk.Price__c > 2000) {
+            bk.Discount__c  = (20.0/100.0)*bk.Price__c;
+        } else {
+            bk.Discount__c  = (10.0/100.0)*bk.Price__c;
+        }      
+    }
+}

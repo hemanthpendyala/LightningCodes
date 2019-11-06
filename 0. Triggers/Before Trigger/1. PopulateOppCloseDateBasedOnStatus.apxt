@@ -1,0 +1,14 @@
+=> In Opportunity, If the stage is changed from another value  to CLOSED_WON or CLOSED_LOST, populates the Close Date field with Today().
+trigger oppDateUpdate on Opportunity (before update) {
+    //if StageName changed from another value  to (Closed Won, Closed Lost)
+    //populate CloseDate with today
+    
+    for(Opportunity opp : Trigger.New) {
+        Opportunity oldOppStagevalue = Trigger.OldMap.get(opp.Id);
+        if(opp.StageName != oldOppStagevalue.StageName) {  //*****
+            if(opp.StageName == 'Closed Won' || opp.StageName == 'Closed Lost') {
+                opp.CloseDate = Date.today();
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+//The following trigger will prevent the users from deleting the Accounts. 
+//This is because System Administrator has all the permissions, we cannot change the permissions.
+trigger AccountDeleteRestric_admin on Account (before delete) {
+    String profileid = userinfo.getProfileId();
+    String sysAdminId = [Select id from Profile where name = 'System Administrator'].id;
+    if(profileid != sysAdminId) {
+        for(Account acc : Trigger.Old) {
+            acc.addError('System Administrator has all the permissions, we cannot change the permissions.');
+        }  
+    }
+    
+}
