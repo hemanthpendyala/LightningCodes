@@ -1,0 +1,19 @@
+//Create Custom field called “Number of Locations” on the Account Object (Data Type=Number)
+//The following trigger creates the number of contacts which are equal to the number which we will enter in the Number of Locations field on the Account Object
+trigger CreateContacts_forAccLocations on Account (after insert) {
+    List<Contact> contacts = new List<Contact>();
+    for(Account acc : Trigger.New) {
+        if(acc.NumberofLocations__c != null) {
+            Integer e = Integer.ValueOf(acc.NumberofLocations__c);
+            for(Integer i = 1; i <= e; i++ ) {
+                Contact con = new Contact();
+                con.LastName = 'Contact'+i;
+                con.AccountId  = acc.id;
+                contacts.add(con);
+            }
+        }
+    }
+    if(contacts.size() > 0) {
+        insert contacts;
+    }
+}

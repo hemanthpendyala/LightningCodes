@@ -1,0 +1,49 @@
+/*
+Create the object called “Customer Project” and create Status field under this object with picklist data type (Values=Active, Inactive). 
+Create the relationship between this custom object and Opportunity so that Customer Project is related list to the Opportunity.
+Create   Active Customer project‑ field on Opportunity object (Data Type=Checkbox)
+The logic is when we create Customer Project for an Opportunity with the Status=Active, 
+then  Active Customer project check box on the Opportunity Detail page is automatically checked.
+*/
+trigger checkFieldOnOppbasedonRL on Customer_Project__c (after insert, after update) {
+    
+    //this loop will help the system not to fetch all the opportunities.
+    List<ID> cpOppIDs = new List<ID>();
+    for(Customer_Project__c CP : Trigger.New) {
+        if(CP.Opportunity__c != null) {
+            cpOppIDs.add(CP.Opportunity__c);
+        }
+    }
+    
+    Map<Id, Opportunity> OppMap = new Map<Id, Opportunity>([Select id from Opportunity where id in :cpOppIDs]);
+    
+    List<Opportunity> Opplist = new List<Opportunity>();
+    
+    for(Customer_Project__c CP : Trigger.New) {
+        if(CP.Status__c == 'Active') {
+             if(CP.Opportunity__c != null) {
+                Opportunity opp = OppMap.get(CP.Opportunity__c);
+                opp.Active_Customer_project__c = True;
+                Opplist.add(opp);
+            }
+        }
+    }
+    if(Opplist.size() > 0) {
+        update Opplist;
+    }
+}
+
+/*
+trigger UpdateCPActivenOnOppty on Customer_Project__c (after insert)
+{
+List<Opportunity> opps=new List<Opportunity>();
+for(Customer_Project__c cp:Trigger.New){
+if(cp.Status__c=='Active'){
+Opportunity opp= new Opportunity(id=cp.Opportunity__c);
+opp.Active_Customer_Project__c = True;
+opps.add(opp);
+}
+}
+update opps;
+} 
+*/

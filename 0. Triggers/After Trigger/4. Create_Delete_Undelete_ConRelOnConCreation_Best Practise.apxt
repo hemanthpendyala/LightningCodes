@@ -1,0 +1,79 @@
+public class CreateCRonContactCreationcls {
+    
+    public CreateCRonContactCreationcls() {}
+    
+    public void handlafterinsert(List<Contact> con) {
+        createConRel(con);
+    }
+    public void handlafterupdate(Map<Id, Contact> newMap, Map<Id, Contact> oldMap) {
+        createConRel(newMap.values());
+    }
+    public void handlbeforedelete(List<Contact> oldMap) {
+        deleteConRel(oldMap);
+    }
+    public void handlafterundelete(Map<Id, Contact> newMap) {
+        undeleteConRel(newMap.values());
+    }
+    //logic is when we create contact by checking Contact Relationship checkbox, 
+    //then Contact Relationship will be created automatically for that contact.
+    public static void createConRel(List<Contact> cons) {
+        List<Contact_Relationship__c> CRList = new List<Contact_Relationship__c>();
+        for(Contact con : cons) {
+            if(con.Contact_Relationship__c == True) {
+                Contact_Relationship__c CRnew = new Contact_Relationship__c();
+                CRnew.Name = con.LastName;
+                CRnew.Contact__c = con.Id;
+                CRList.add(CRnew);
+            }
+        }
+        if(CRList.size() > 0) {
+            insert CRList;
+        }
+    }
+    
+    public static void deleteConRel(List<Contact> cons) {
+        List<Id> conIds = new List<Id>();
+        for(Contact con : cons) {
+            conIds.add(con.Id);
+        }
+        if(conIds.size() > 0) {
+            delete[Select id, Contact__c from Contact_Relationship__c where Contact__c in :conIds];
+        }
+    }
+    
+    public static void undeleteConRel(List<Contact> cons) {
+        List<Id> conIds = new List<Id>();
+        for(Contact con : cons) {
+            conIds.add(con.Id);
+        }
+        if(conIds.size() > 0) {
+            undelete[Select id, Contact__c from Contact_Relationship__c where Contact__c in :conIds];
+        }
+    }
+}
+
+
+trigger CreateCRonContactCreationtrgr on Contact (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
+    
+    CreateCRonContactCreationcls CRconRel = new CreateCRonContactCreationcls();
+    
+    if(Trigger.isBefore) {
+        if(Trigger.isInsert) {
+            //
+        } else if(Trigger.isUpdate) {
+            
+        } else if(Trigger.isDelete) {
+            CRconRel.handlbeforedelete(Trigger.old);
+        }
+    } else if(Trigger.isAfter) {
+        if(Trigger.isInsert) {
+            CRconRel.handlafterinsert(Trigger.New);
+        } else if(Trigger.isUpdate) {
+            CRconRel.handlafterupdate(Trigger.newMap, Trigger.oldMap);
+        } else if(Trigger.isDelete) {
+
+        } else if(Trigger.isundelete) {
+            CRconRel.handlafterundelete(Trigger.newMap);
+        }
+    }
+}

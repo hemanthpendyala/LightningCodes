@@ -1,0 +1,23 @@
+=> Create a new PickList  “Custom Status” in Opportunity object.(New,Open,Close,Reset) values. When this field changed and value is “Reset” now then delete all associated  products(opp. Lines) with related Opportunity.
+
+trigger oppLIdelete on Opportunity (after update) {
+    
+    //If use before trigger, the below error accurs.
+    //Error:Apex trigger oppLIdelete caused an unexpected exception, contact your administrator: oppLIdelete: execution of BeforeUpdate caused by: System.DmlException: Delete failed. 
+    //First exception on row 0 with id 00k1Q00003aOwUCQA0; first error: SELF_REFERENCE_FROM_TRIGGER, Object (id = 0061Q00000obfMt) is currently in trigger oppLIdelete, 
+    //therefore it cannot recursively update itself: []: Trigger.oppLIdelete: line 13, column 1
+    List<Opportunity> opplist = new List<Opportunity>();
+    for(Opportunity opp : Trigger.New) {
+        if(opp.Custom_Status__c != 'Null' && opp.Custom_Status__c == 'Reset') {
+            opplist.add(opp);
+        }
+    }
+    if(opplist.size() > 0) {
+        List<OpportunityLineItem> opplineitems = [Select Id from OpportunityLineItem where OpportunityId =: opplist];
+        system.debug('Hem01'+opplineitems);
+        if(opplineitems.size() > 0) {
+            delete(opplineitems);       
+        }
+    }
+    
+} 

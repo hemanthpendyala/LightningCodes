@@ -1,0 +1,84 @@
+https://tekslate.com/15-sample-triggers-different-scenarios:
+Create “Top X Designation” custom object which is the related list to Opportunity (Look up Relationship). In the Top X Designation object, create the fields
+Type (Picklist),
+Document Attached (Checkbox)
+Create one field Handoff Attached with pick list type with values are Yes, No on Opportunity Object.
+
+Logic :-  If Type (Top X Designation) = "Contract Flow Down/Handoff", and "Document Attached” = True then "Handoff Attached" = True, otherwise false.
+
+/*
+Create “Top X Designation” custom object which is the related list to Opportunity (Look up Relationship). In the Top X Designation object, create the fields
+Type (Picklist),
+Document Attached (Checkbox)
+Create one field Handoff Attached with pick list type with values are Yes, No on Opportunity Object.
+Logic :-  If Type (Top X Designation) = "Contract Flow Down/Handoff", and "Document Attached” = True then "Handoff Attached" = True, otherwise false.
+*/
+trigger TriggerScn01 on Top_X_Designation__c (after insert, after update) {
+    
+    List<ID> relOpp = new List<ID>();
+    for(Top_X_Designation__c TD : Trigger.New){
+        if(TD.Opportunity__c != null) {
+            relOpp.add(TD.Opportunity__c);  
+        }
+    }
+    Map<ID, Opportunity> ins = new Map<ID, Opportunity>([Select id from Opportunity where Id in :relOpp]);
+    List<Opportunity> oppupdted = new List<Opportunity>();
+    for(Top_X_Designation__c TD : Trigger.New){
+        if(TD.Opportunity__c != null) {
+            Opportunity opp = ins.get(TD.Opportunity__c);
+            if(TD.Document_Attached__c == True && TD.Type__c == 'Contract Flow Down/Handoff') { 
+                opp.Handoff_Attached__c = 'Yes';
+            } else {
+                opp.Handoff_Attached__c = 'No';
+            }
+            oppupdted.add(opp);
+        }
+    }
+    if(oppupdted.size() > 0){
+        update oppupdted;   
+    }
+    
+}
+
+
+@isTest
+public class TriggerScn01 {
+    @isTest
+    public static void method01() {
+        
+        Opportunity opp01 = new Opportunity();
+        opp01.Name = 'hemOpp01';
+        opp01.CloseDate = Date.today();
+        opp01.StageName = 'Close Own';
+        insert opp01;
+        
+        Top_X_Designation__c Td = new Top_X_Designation__c();
+        Td.Name = 'Hem Design01';
+        Td.Document_Attached__c = True;
+        Td.Type__c = 'Contract Flow Down/Handoff';
+        Td.Opportunity__c = opp01.Id;
+        insert Td;
+        
+        Opportunity opp = [Select id, Handoff_Attached__c from Opportunity];
+        System.assertEquals('Yes', opp.Handoff_Attached__c);
+    }
+    @isTest
+    public static void method02() {
+                
+        Opportunity opp01 = new Opportunity();
+        opp01.Name = 'hemOpp01';
+        opp01.CloseDate = Date.today();
+        opp01.StageName = 'Close Own';
+        insert opp01;
+        
+        Top_X_Designation__c Td = new Top_X_Designation__c();
+        Td.Name = 'Hem Design01';
+        Td.Document_Attached__c = False;
+        Td.Type__c = 'Contract Flow Down/Handoff';
+        Td.Opportunity__c = opp01.Id;
+        insert Td;
+        
+        Opportunity opp = [Select id, Handoff_Attached__c from Opportunity];
+        System.assertEquals('No', opp.Handoff_Attached__c);
+    }
+}

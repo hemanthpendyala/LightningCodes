@@ -1,0 +1,10 @@
+//Creating contact attachment duplicate on Account record related list. 
+trigger TestAtt on Attachment (after insert) {
+    Attachment att = trigger.New[0];
+    Contact con = [Select Id, Account.id,Account.name from Contact where Id = :att.ParentId];
+    
+    if(String.valueOf(att.ParentId).substring(1,3) == '003'){
+        Attachment newFile = new Attachment(Name = att.name, body = att.body, ParentId = con.Accountid);
+        insert newFile;
+    }
+}
