@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+  <lightning:button name="Click here" label="Button" onclick="{!c.ParentController}"/>
+    <c:useChildControllerinParentController_childComp aura:Id = "ChildComp"/>
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:method name="ChildMethod" action="{!c.ChildController}" access="PUBLIC"/>
+    ChildComp
+</aura:component>
