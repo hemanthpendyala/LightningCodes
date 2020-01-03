@@ -1,6 +1,6 @@
-public class TestRequestsForCategory {
+global class TestRequestsForCategory {
     @AuraEnabled
-    public static DataWrapper RequestsForCategory(String Category) {
+    global static DataWrapper RequestsForCategory(String Category) {
         /* 
         List<ICIX_V1__Product_Test__c> PTs = [Select id from ICIX_V1__Product_Test__c where ICIX_V1__Product_Test_Category__c IN :Category];
         List<ID> PT_IDs = new List<ID>();
@@ -11,24 +11,23 @@ public class TestRequestsForCategory {
         system.debug('before'+Category);
         List<String> Categories = Category.split(',');
         system.debug('After'+Categories);
-        List<ICIX_V1__Container_Question__c> ContQues = [Select id, ICIX_V1__Container_Instance__c from ICIX_V1__Container_Question__c where ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__r.Name IN :Categories];
+        List<ICIX_V1__Container_Question__c> ContQues = [Select id, ICIX_V1__Container_Instance__c from ICIX_V1__Container_Question__c where ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__c IN :Categories];
         List<ID> CQ_IDs = new List<ID>();
         for(ICIX_V1__Container_Question__c CQ : ContQues) {
             CQ_IDs.add(CQ.ICIX_V1__Container_Instance__c);
         }
         
         List<ICIX_V1__Request__c> RequestIDs = [Select Id,ICIX_V1__Status__c,Name, ICIX_V1__Container_Instance__c, (Select id,  Name, ICIX_V1__Status__c, ICIX_V1__Workflow_Status__c, ICIX_V1__Container__r.Name from ICIX_V1__Workflow_Instance__r) from ICIX_V1__Request__c where ICIX_V1__Container_Instance__c IN :CQ_IDs];
-        
-        List<ICIX_V1__Workflow_Instance__c> WorkflowInst = [Select id,  Name, ICIX_V1__Status__c, ICIX_V1__Workflow_Status__c, ICIX_V1__Container__c from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request__r.ICIX_V1__Container_Instance__c IN :CQ_IDs];
-        
+        system.debug('RequestIDs : '+RequestIDs);
+        List<ICIX_V1__Workflow_Instance__c> WorkflowInst = [Select id,  Name, ICIX_V1__Request__r.Name, ICIX_V1__Request__r.ICIX_V1__Status__c, ICIX_V1__Status__c, ICIX_V1__Workflow_Status__c, ICIX_V1__Container__r.Name from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request__r.ICIX_V1__Container_Instance__c IN :CQ_IDs];
+        system.debug('WorkflowInst : '+WorkflowInst);
         DataWrapper DW = new DataWrapper();
         DW.requests = RequestIDs;
         DW.workflows = WorkflowInst;
-        
         return DW;
     }
     
-    public class DataWrapper {
+    global class DataWrapper {
         @AuraEnabled public List<ICIX_V1__Request__c> requests;
         @AuraEnabled public List<ICIX_V1__Workflow_Instance__c> workflows;
     }
