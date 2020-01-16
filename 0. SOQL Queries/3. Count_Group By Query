@@ -1,0 +1,2 @@
+SELECT count(Id), ICIX_v1__Product1__c, ICIX_v1__Product2__c, ICIX_v1__Type__c FROM ICIX_v1__PP_Relationship__c WHERE ICIX_v1__Unique_Id__c = null group by ICIX_v1__Product1__c, ICIX_v1__Product2__c, ICIX_v1__Type__c having count(id) > 1
+SELECT  ICIX_v1__UP_Relationship__c , ICIX_v1__Attribute__c, count(Id)  FROM ICIX_v1__UP_Relationship_Attribute__c WHERE ICIX_v1__Unique_Id__c = null group by ICIX_v1__UP_Relationship__c , ICIX_v1__Attribute__c HAVING count(Id)>1
