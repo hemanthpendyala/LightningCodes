@@ -1,0 +1,465 @@
+{
+	"settings": {
+		"Command": "AddProducts",
+		"ApiParameters": {
+			"CompanyICIXID": "158542",
+			"Products": [{
+				"IcixProductName": "1900S BLNGRE 108-144_10003947BRWN",
+				"Description": "1900S BLNGRE 108-144",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6971",
+				"ProductIdTypesAndValues": {
+					"SKU": "10003947BRWN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "62160004BRWN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A;Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CLOUD 39 RECT OPEN SIDE_61540886BRN",
+				"Description": "CLOUD 39 RECT OPEN SIDE",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6858",
+				"ProductIdTypesAndValues": {
+					"SKU": "61540886BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "40970996BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A;Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CLOUD 43.5 RECT OPEN SIDE_61540888BRN",
+				"Description": "CLOUD 43.5 RECT OPEN SIDE",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6858",
+				"ProductIdTypesAndValues": {
+					"SKU": "61540888BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "40970996BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A;Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CLOUD 39 SQ OPN CFFE TBL_61540900BRN",
+				"Description": "CLOUD 39 SQ OPN CFFE TBL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6858",
+				"ProductIdTypesAndValues": {
+					"SKU": "61540900BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "40970996BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A;Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CLOUD 43.5 SQ OP CFFE TBL_61540916BRN",
+				"Description": "CLOUD 43.5 SQ OP CFFE TBL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6858",
+				"ProductIdTypesAndValues": {
+					"SKU": "61540916BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "40970996BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A;Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CHATHAM TRAIN SHELF_12320913CHR",
+				"Description": "CHATHAM TRAIN SHELF",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "12320913CHR"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "12320943PN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_F;Main Brand_Hardware_L;Main Brand_Hardware_P;Main Brand Quality_Hardware_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CHATHAM GLASS SHELF_12320943CHR",
+				"Description": "CHATHAM GLASS SHELF",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "12320943CHR"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "12320943PN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_F;Main Brand_Hardware_L;Main Brand_Hardware_P;Main Brand Quality_Hardware_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CHATHAM 18 TOWEL BAR_12320947PN",
+				"Description": "CHATHAM 18 TOWEL BAR",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "12320947PN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "12320943PN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A;Main Brand_Hardware_F;Main Brand_Hardware_L;Main Brand_Hardware_P;Main Brand Quality_Hardware_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CHATHAM 30IN TOWEL BAR_12320960CHR",
+				"Description": "CHATHAM 30IN TOWEL BAR",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "12320960CHR"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "12320943PN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_F;Main Brand_Hardware_L;Main Brand_Hardware_P;Main Brand Quality_Hardware_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 3 INCH PULL_24120420BRNZ",
+				"Description": "STRANDE 3 INCH PULL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120420BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 4 INCH PULL_24120421BRNZ",
+				"Description": "STRANDE 4 INCH PULL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120421BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 6 INCH PULL_24120422BRNZ",
+				"Description": "STRANDE 6 INCH PULL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120422BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 8 INCH PULL_24120423BRNZ",
+				"Description": "STRANDE 8 INCH PULL",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120423BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 1 1/4 IN KNOB_24120426BRNZ",
+				"Description": "STRANDE 1 1/4 IN KNOB",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120426BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE 1 1/2IN KNOB_24120427BRNZ",
+				"Description": "STRANDE 1 1/2IN KNOB",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24120427BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "STRANDE HOOK_24200074BRNZ",
+				"Description": "STRANDE HOOK",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6234",
+				"ProductIdTypesAndValues": {
+					"SKU": "24200074BRNZ"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10000465BRNZ",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Hardware_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "CMP ST. J BASE RECT 72_10002603ANTB",
+				"Description": "CMP ST. J BASE RECT 72",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6233",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002603ANTB"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10002603GRY",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CMP ST. J BASE RECT 72_10002603DARK",
+				"Description": "CMP ST. J BASE RECT 72",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6233",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002603DARK"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10002603GRY",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "MASLOW SPIDER 40 ENTRY_10003448NATB",
+				"Description": "MASLOW SPIDER 40 ENTRY",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "7116",
+				"ProductIdTypesAndValues": {
+					"SKU": "10003448NATB"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10003448ESPB",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_F;Main Brand_Indoor Table_L;Main Brand_Indoor Table_P;Main Brand Quality_Indoor Table_Q"
+					}
+				}]
+			}, {
+				"IcixProductName": "CMP ST. J BASE RECT 72_10002603ANTB",
+				"Description": "CMP ST. J BASE RECT 72",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6233",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002603ANTB"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "61980975ANTB",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Indoor Table_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "RUS OAK 34 CLD NS_10002416BRN",
+				"Description": "RUS OAK 34 CLD NS",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6968",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002416BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10001610BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Media Center_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "RUS OAK 34 CLD NS_10002416NATL",
+				"Description": "RUS OAK 34 CLD NS",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6968",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002416NATL"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10001616NATL",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Desk_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "RUS OAK 34 OPN NS_10002419BRN",
+				"Description": "RUS OAK 34 OPN NS",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6968",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002419BRN"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10001610BRN",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Media Center_A"
+					}
+				}]
+			}, {
+				"IcixProductName": "RUS OAK 34 OPN NS_10002419NATL",
+				"Description": "RUS OAK 34 OPN NS",
+				"RelationshipType": "Buy",
+				"Status": "Active",
+				"TradingPartnerIdType": "Vendor",
+				"TradingPartnerId": "6968",
+				"ProductIdTypesAndValues": {
+					"SKU": "10002419NATL"
+				},
+				"RelatedProducts": [{
+					"IdType": "SKU",
+					"ProductId": "10001616NATL",
+					"RelationshipType": "Component",
+					"ExemptFromTesting": false,
+					"Attributes": {
+						"RH_PT_ATTRIBUTE": "Main Brand_Desk_A"
+					}
+				}]
+			}]
+		}
+	}
+}
