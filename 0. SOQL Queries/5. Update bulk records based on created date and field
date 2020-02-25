@@ -15,3 +15,8 @@ Update UpdatedPOLineList;
 /*******
 SELECT Id, Name, Product_Test_Expiration_Date__c,Min_PO_cancel_Date__c FROM ICIX_V1__ICIX_Product__c WHERE Product_Test_Expiration_Date__c = 2050-01-01
 *******/
+
+/**** Apex Logs ****/
+SELECT Id, LastModifiedDate, Request, Operation, StartTime, Location FROM ApexLog WHERE StartTime >= 2019-06-12T00:00:00Z ORDER BY LastModifiedDate asc
+*******/
+
