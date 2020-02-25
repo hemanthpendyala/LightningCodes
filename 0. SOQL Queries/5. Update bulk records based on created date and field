@@ -11,3 +11,7 @@ for(ICIX_V1__Purchase_Order_Line_Item__c POLineItem: POlineList){
 }
 System.debug('++UpdatedPOLineList'+UpdatedPOLineList);
 Update UpdatedPOLineList;
+
+/*******
+SELECT Id, Name, Product_Test_Expiration_Date__c,Min_PO_cancel_Date__c FROM ICIX_V1__ICIX_Product__c WHERE Product_Test_Expiration_Date__c = 2050-01-01
+*******/
