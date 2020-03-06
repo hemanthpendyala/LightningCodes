@@ -20,3 +20,43 @@ SELECT Id, Name, Product_Test_Expiration_Date__c,Min_PO_cancel_Date__c FROM ICIX
 SELECT Id, LastModifiedDate, Request, Operation, StartTime, Location FROM ApexLog WHERE StartTime >= 2019-06-12T00:00:00Z ORDER BY LastModifiedDate asc
 *******/
 
+/****** Update PO and POLI item
+List<ICIX_V1__Purchase_Order__c> UpdatedPOList = New List<ICIX_V1__Purchase_Order__c>();
+List<ICIX_V1__Purchase_Order_Line_Item__c> UpdatedPOLineList = New List<ICIX_V1__Purchase_Order_Line_Item__c>();
+Set<Id> purchaseOrderIdSet = New Set<Id>();
+List<ICIX_V1__Purchase_Order__c> POList= [SELECT Id, Name, CreatedDate, ICIX_V1__PO_Status__c 
+					  FROM ICIX_V1__Purchase_Order__c WHERE ICIX_V1__PO_Status__c = 'Open' 
+					  AND CreatedDate< 2020-02-27T23:59:59Z ORDER by CreatedDate DESC LIMIT 2000];
+System.debug('++Size'+POList.size());
+System.debug('++POList'+POList);
+
+if(POList != null && POList.size() >0){
+	for(ICIX_V1__Purchase_Order__c POItem: POList){
+		POItem.ICIX_V1__PO_Status__c = 'Closed';
+		UpdatedPOList.add(POItem);
+		purchaseOrderIdSet.add(POItem.Id);
+	}
+}
+
+// for above PO's picking POLI which is having created date before 02/26/2020 and status = open
+List<ICIX_V1__Purchase_Order_Line_Item__c> POlineList= [SELECT Id, Name, ICIX_V1__Status__c FROM ICIX_V1__Purchase_Order_Line_Item__c 
+                                                        WHERE ICIX_V1__Purchase_Order__c In: purchaseOrderIdSet AND 
+                                                        ICIX_V1__Status__c = 'Open' AND CreatedDate< 2020-02-27T23:59:59Z
+                                                        ORDER by CreatedDate DESC];
+
+System.debug('++POlineList'+POlineList);
+if(POlineList != null && POlineList.size() >0){
+	for(ICIX_V1__Purchase_Order_Line_Item__c POLineItem: POlineList){
+		POLineItem.ICIX_V1__Status__c = 'Closed';
+		UpdatedPOLineList.add(POLineItem);
+	}
+}
+
+if(UpdatedPOList != null && UpdatedPOList.size() >0){
+	Update UpdatedPOList;
+}
+
+if(UpdatedPOLineList != null && UpdatedPOLineList.size() >0){
+	Update UpdatedPOLineList;
+}
+************/
