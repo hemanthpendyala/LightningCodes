@@ -1,3 +1,48 @@
+/******* Closing POs and POLIs based on both dates*******/
+
+List<ICIX_V1__Purchase_Order__c> UpdatedPOList = New List<ICIX_V1__Purchase_Order__c>();
+List<ICIX_V1__Purchase_Order_Line_Item__c> UpdatedPOLineList = New List<ICIX_V1__Purchase_Order_Line_Item__c>();
+Set<Id> purchaseOrderIdSet = New Set<Id>();
+List<ICIX_V1__Purchase_Order__c> POList= [SELECT Id, Name, CreatedDate, ICIX_V1__PO_Status__c 
+					  FROM ICIX_V1__Purchase_Order__c WHERE ICIX_V1__PO_Status__c = 'Open' 
+					  AND CreatedDate< 2020-03-16T23:59:59Z ORDER by CreatedDate DESC LIMIT 1000];
+System.debug('++Size'+POList.size());
+System.debug('++POList'+POList);
+
+if(POList != null && POList.size() >0){
+	for(ICIX_V1__Purchase_Order__c POItem: POList){
+		POItem.ICIX_V1__PO_Status__c = 'Closed';
+		UpdatedPOList.add(POItem);
+		purchaseOrderIdSet.add(POItem.Id);
+	}
+}
+
+// for above PO's picking POLI which is having created date before 02/26/2020 and status = open
+List<ICIX_V1__Purchase_Order_Line_Item__c> POlineList= [SELECT Id, Name, ICIX_V1__Status__c FROM ICIX_V1__Purchase_Order_Line_Item__c 
+                                                        WHERE ICIX_V1__Purchase_Order__c In: purchaseOrderIdSet AND 
+                                                        ICIX_V1__Status__c = 'Open' AND CreatedDate< 2020-03-16T23:59:59Z
+                                                        ORDER by CreatedDate DESC];
+
+System.debug('++POlineList'+POlineList);
+if(POlineList != null && POlineList.size() >0){
+	for(ICIX_V1__Purchase_Order_Line_Item__c POLineItem: POlineList){
+		POLineItem.ICIX_V1__Status__c = 'Closed';
+		UpdatedPOLineList.add(POLineItem);
+	}
+}
+
+if(UpdatedPOList != null && UpdatedPOList.size() >0){
+	Update UpdatedPOList;
+}
+
+if(UpdatedPOLineList != null && UpdatedPOLineList.size() >0){
+	Update UpdatedPOLineList;
+}
+
+/******* Closing POs and POLIs *******/
+
+
+/*******
 List<ICIX_V1__Purchase_Order_Line_Item__c> UpdatedPOLineList = New List<ICIX_V1__Purchase_Order_Line_Item__c>();
 List<ICIX_V1__Purchase_Order_Line_Item__c> POlineList= [SELECT Id, Name, ICIX_V1__Status__c 
 							FROM ICIX_V1__Purchase_Order_Line_Item__c 
