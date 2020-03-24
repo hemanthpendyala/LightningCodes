@@ -1,0 +1,25 @@
+public class ProductsRequestsWithCancelledPOLI {
+    
+    public static void PRwithCancelledPOLI() {
+        List<ICIX_V1__ICIX_Product__c> products = [SELECT Id, (select id from ICIX_V1__Purchase_Order_Line_Items__r where ICIX_V1__Status__c = 'Cancelled') from ICIX_V1__ICIX_Product__c limit 49999];
+        List<ID>  prds= new List<ID>();
+        for(ICIX_V1__ICIX_Product__c pr : products) {
+            if(pr.ICIX_V1__Purchase_Order_Line_Items__r.size() > 0) {
+                prds.add(pr.id);
+            }
+        }
+        List<ICIX_V1__Request__c> Requests = [select id, name, (select id from ICIX_V1__Workflow_Instance__r where ICIX_V1__Status__c = 'Cancelled') from ICIX_V1__Request__c where ICIX_V1__ICIX_Product__c IN :prds];
+        //Workflow status = Open.
+        //50 requests (10 canclled workflows)(1 open)(39 closed)
+        List<String> reqs= new List<string>();
+        for(ICIX_V1__Request__c req : Requests) {
+            if(req.ICIX_V1__Workflow_Instance__r.size() > 0) {
+                reqs.add(req.name);
+            }
+        }
+        system.debug(reqs);
+    }
+    //SELECT Id, name, (select id, (select id from ICIX_V1__Workflow_Instance__r) from ICIX_V1__Requests__r) from ICIX_V1__ICIX_Product__c
+    
+    //SELECT Id, name, (select id from ICIX_V1__Requests__r), (select id from ICIX_V1__Purchase_Order_Line_Items__r where ICIX_V1__Status__c = 'Cancelled') from ICIX_V1__ICIX_Product__c
+}
