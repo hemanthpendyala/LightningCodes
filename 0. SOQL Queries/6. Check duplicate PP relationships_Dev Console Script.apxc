@@ -1,3 +1,4 @@
+/////***** Sample Code-01 *****////////
 List<ICIX_V1__PP_Relationship__c> pprs = new List<ICIX_V1__PP_Relationship__c>();
 pprs = [SELECT id, ICIX_V1__Type__c, ICIX_V1__Product1__c,ICIX_V1__Product2__c FROM ICIX_V1__PP_Relationship__c];
 Set<String> uniqueIds = new Set<String>();
@@ -10,7 +11,43 @@ for(ICIX_V1__PP_Relationship__c ppr : pprs){
         duplicateIds.add(ppr.Id);
         system.debug(uniqueId);
         duplicates.add(uniqueId);
-
     }
     uniqueIds.add(uniqueId);
 }
+
+/////***** Sample Code-02 *****////////
+List<ICIX_V1__Product_Test__c> pprs = new List<ICIX_V1__Product_Test__c>();
+pprs = [SELECT Id, Name, ICIX_V1__Unique_ID__c, Unique_Number__c,ICIX_V1__Product_Test_Category__c FROM ICIX_V1__Product_Test__c WHERE ICIX_V1__Unique_ID__c != null];
+Set<String> uniqueIds = new Set<String>();
+Set<String> duplicates = new Set<String>();
+Set<Id> duplicateIds = new Set<Id>();
+for(ICIX_V1__Product_Test__c ppr : pprs){
+	if(!uniqueIds.contains(ppr.ICIX_V1__Unique_ID__c)){		
+		uniqueIds.add(ppr.ICIX_V1__Unique_ID__c);
+	}else{
+		duplicateIds.add(ppr.ICIX_V1__Unique_ID__c);
+	}
+}
+system.debug('+uniqueIds'+uniqueIds.size());
+system.debug('++duplicateIds'+duplicateIds.size());
+
+
+/////***** Sample Code-03 *****////////
+List<ICIX_V1__Product_Test__c> pprs = new List<ICIX_V1__Product_Test__c>();
+pprs = [SELECT Id, Name, ICIX_V1__Unique_ID__c, Unique_Number__c,ICIX_V1__Product_Test_Category__c,ICIX_V1__Test__c,ICIX_V1__Test_Class__c,ICIX_V1__Testing_Type__c,ICIX_V1__Version__c FROM ICIX_V1__Product_Test__c WHERE ICIX_V1__Unique_ID__c != null];
+Set<String> uniqueIds = new Set<String>();
+Set<String> duplicates = new Set<String>();
+Set<Id> duplicateIds = new Set<Id>();
+for(ICIX_V1__Product_Test__c ppr : pprs){
+	String uniqueId = String.join(new List<String>{ppr.ICIX_V1__Product_Test_Category__c+'_', ppr.ICIX_V1__Test__c+'_', ppr.ICIX_V1__Test_Class__c+'_', ppr.ICIX_V1__Testing_Type__c},'_');
+	uniqueId += uniqueId +'_'+ppr.ICIX_V1__Version__c;
+    if(uniqueIds.contains(uniqueId)){
+			system.debug(ppr.Id);
+			duplicateIds.add(ppr.Id);
+			system.debug(uniqueId);
+			duplicates.add(uniqueId);
+		}
+		uniqueIds.add(uniqueId);
+}
+system.debug('++uniqueIds'+uniqueIds.size());
+system.debug('++duplicateIds'+duplicateIds.size());
