@@ -1,3 +1,7 @@
+/**** Query for Created Date *****/
+select id, Name, (Select id, name from ICIX_V1__Container_Questions__r) from ICIX_V1__Container__c where createdDate = LAST_N_DAYS:7
+
+
 /******* Closing POs and POLIs based on both dates*******/
 
 List<ICIX_V1__Purchase_Order__c> UpdatedPOList = New List<ICIX_V1__Purchase_Order__c>();
