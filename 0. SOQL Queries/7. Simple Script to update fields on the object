@@ -1,0 +1,7 @@
+list<ICIX_V1__Message__c> lst = [select id, ICIX_V1__Failed__c, ICIX_V1__Processed__c, ICIX_V1__Validated__c from ICIX_V1__Message__c where ICIX_V1__Request_Global_Id__c = 'a161I000002dZ6rQAE'];
+for(ICIX_V1__Message__c ls : lst) {
+    ls.ICIX_V1__Failed__c = false;
+    ls.ICIX_V1__Processed__c = false;
+    ls.ICIX_V1__Validated__c = false;
+}
+update lst;
