@@ -28,3 +28,56 @@ update workflowStepInstances;
     System.debug(LoggingLevel.ERROR, '--- Error---'+ex.getMessage());
     Database.rollback(sp);
   }
+
+
+
+///***CS-1202 -  Workflow mismatch: Corrective Action stuck on 'Submitted by Responder' but Closed ****///
+Savepoint sp = Database.setSavepoint();
+try{
+	
+	ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);
+	ICIX_V1__Request__c car = [SELECT ICIX_V1__Global_ID__c,ICIX_V1__Related_Request__c,ICIX_V1__Status__c,Id,Name 
+									FROM ICIX_V1__Request__c WHERE ICIX_V1__Global_ID__c = '227-DV-001674'];
+
+	car.ICIX_V1__Status__c = 'Closed';
+	System.debug(LoggingLevel.ERROR, '@@@@@ car @@@@@@: '+car);
+
+	update car;
+
+	List<ICIX_V1__Workflow_Instance__c> listWorkflow = [SELECT Id, Name,ICIX_V1__Status__c from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request_Global_Id__c = : car.ICIX_V1__Global_ID__c];
+
+	List<ICIX_V1__Workflow_Instance__c> listWorkflowToUpdate = new List<ICIX_V1__Workflow_Instance__c>();
+
+	for(ICIX_V1__Workflow_Instance__c w :listWorkflow){
+	    if(w.ICIX_V1__Status__c != 'Approved'){
+	        w.ICIX_V1__Status__c = 'Approved';
+	        listWorkflowToUpdate.add(w);
+	    }
+	}
+
+	System.debug(LoggingLevel.ERROR, '@@@@@ listWorkflowToUpdate @@@@@@: '+listWorkflowToUpdate);
+
+
+	if(listWorkflowToUpdate.size()>0){
+	    update listWorkflowToUpdate;
+	}
+
+	ICIX_V1__Request__c carToTask = [SELECT ICIX_V1__Global_ID__c,ICIX_V1__Related_Request__c,ICIX_V1__Status__c,Id,Name 
+									FROM ICIX_V1__Request__c WHERE ICIX_V1__Global_ID__c = '227-DW-001676'];
+
+	Task taskToReopen = [SELECT ICIX_V1__Request__c,ICIX_V1__Request__R.Name, ICIX_V1__Request__R.ICIX_V1__Global_ID__c, ICIX_V1__Workflow_Status__c,
+									Id,Status,CreatedDate, OwnerId, Owner.FirstName, Owner.Lastname 
+										FROM Task WHERE ICIX_V1__Request__c =: carToTask.Id AND Owner.Lastname = 'Castro' AND Owner.FirstName = 'Roddy' LIMIT 1];
+
+	taskToReopen.Status = 'Open';
+	System.debug(LoggingLevel.ERROR, '@@@@@ taskToReopen @@@@@@: '+taskToReopen);
+	update taskToReopen;
+
+	System.debug(LoggingLevel.ERROR, '@@@@@ END @@@@@@: ');
+
+}catch(exception ex){
+    System.debug('@@@@@ SCRIP RESULT @@@@@@: '+ex.getMessage());
+    System.debug(LoggingLevel.ERROR, '@@@@@ SCRIP RESULT @@@@@@: '+ex.getMessage());
+	Database.rollback(sp);
+}
