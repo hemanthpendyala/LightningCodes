@@ -1,0 +1,30 @@
+/* Script to manually submit the request in responder Org */
+Savepoint sp = Database.setSavepoint();
+  String requestGlobalId ='a163u0000056aCrAAI';
+  try {
+    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setWorkflowStepTriggerAllowUpdate(true);
+
+List<ICIX_V1__Workflow_Instance__c> workflowInstances= [SELECT Id, Name, ICIX_V1__Request_Global_Id__c, ICIX_V1__Request__c, ICIX_V1__Status__c
+                          FROM ICIX_V1__Workflow_Instance__c
+                          WHERE ICIX_V1__Request__c='a163u0000056aCrAAI'];
+for(ICIX_V1__Workflow_Instance__c workflowInstance: workflowInstances ){
+workflowInstance.ICIX_V1__Status__c= 'Submitted by Requestor';
+}
+
+List<ICIX_V1__Workflow_Step_Instance__c> workflowStepInstances= [SELECT Id, Name, ICIX_V1__Status__c, ICIX_V1__Workflow_Instance__c 
+                              FROM ICIX_V1__Workflow_Step_Instance__c
+                              WHERE ICIX_V1__Workflow_Instance__c='a1O3u000001qmWDEAY'
+                              AND ICIX_V1__Step_Number__c =2];
+for(ICIX_V1__Workflow_Step_Instance__c workflowStepInstance: workflowStepInstances ){
+workflowStepInstance.ICIX_V1__Status__c= 'Awaiting Submit';
+}
+update workflowInstances;
+update workflowStepInstances;
+    System.debug('---Success---');
+  }
+  catch(exception ex){
+    System.debug(LoggingLevel.ERROR, '--- Error---'+ex.getMessage());
+    Database.rollback(sp);
+  }
