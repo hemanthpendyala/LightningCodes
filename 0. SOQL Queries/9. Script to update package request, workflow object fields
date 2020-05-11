@@ -29,6 +29,48 @@ update workflowStepInstances;
     Database.rollback(sp);
   }
 
+///*** Script 02: Resubmit request in responder ****///////
+Savepoint sp = Database.setSavepoint();
+		String requestGlobalId ='';
+		try {
+
+			GlobalUtils.setRequestTriggerAllowUpdate(true);
+			GlobalUtils.setWorkflowTriggerAllowUpdate(true);
+			GlobalUtils.setWorkflowStepTriggerAllowUpdate(true);
+
+			List<String> requestGlobalIdList = new List<String>();
+			requestGlobalIdList.Add(requestGlobalId);
+			List<Workflow_Instance__c> workflowList = [
+					SELECT Id, Name, Status__c,
+							Request__c
+					FROM Workflow_Instance__c
+					WHERE Request__r.Global_Id__c IN :requestGlobalIdList
+			];
+			
+//Now updating workflow step status
+			List<Workflow_Step_Instance__c> workflowStepList = [
+					SELECT Id, Name, Status__c
+					FROM Workflow_Step_Instance__c
+					WHERE Workflow_Instance__r.Request_Global_ID__c In :requestGlobalIdList
+					AND Workflow_Instance__r.Status__c = 'Submitted by Requestor'
+					AND Name = '3-Actor Submit To Verifier'
+			];
+			for (Workflow_Step_Instance__c step : workflowStepList) {
+				step.Status__c = 'Awaiting Submit';
+			}
+			Data.modify(workflowStepList);
+			// Calling Batch class and passing request id into it for resubmitting requests
+			List<Request__c> requestIds = [SELECT Id FROM Request__c WHERE Global_Id__c IN :requestGlobalIdList];
+
+			Database.executeBatch(new SendBulkRequests(requestIds), 1);
+			result = 'Success';
+			System.debug('---Success---');
+		}
+		catch(exception ex){
+			result= 'Error';
+			System.debug(LoggingLevel.ERROR, '--- Error---'+ex.getMessage());
+			Database.rollback(sp);
+		}
 
 
 ///***CS-1202 -  Workflow mismatch: Corrective Action stuck on 'Submitted by Responder' but Closed ****///
