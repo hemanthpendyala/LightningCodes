@@ -10,3 +10,20 @@ Set<ID> prdSt = new Set<ID>();
 	List<ICIX_V1__Request__c> rqLst = [SELECT Id, Name, ICIX_V1__Container_Instance__r.Name,ICIX_V1__Status__c, ICIX_V1__ICIX_Product__r.SKU_number__c FROM ICIX_V1__Request__c where ICIX_V1__ICIX_Product__c NOT IN : prdSt];
 	
 	System.debug('rqLst '+rqLst);
+	
+
+///* Script-02: To identify Prime Products sent out Requests and TPP’s with Testing Program and without Categories *////	
+SELECT Id, Name, Product_Tested__c,CreatedDate,LastModifiedDate,
+(SELECT Id, ICIX_V1__Product2_Name__c, ICIX_V1__Product2__c FROM ICIX_V1__PP_Relationships__r),
+(SELECT Id, Name,ICIX_V1__Testing_Program__r.Name FROM ICIX_V1__Requests__r),
+(SELECT Id, Name,
+ICIX_V1__Testing_Program__c, ICIX_V1__Testing_Program__r.Name,
+ICIX_V1__Product_Test_Level__c, ICIX_V1__Test_Results_In_Certificate__c
+FROM ICIX_V1__Testing_Program_Products__r
+WHERE ICIX_V1__ICIX_Product__c != Null
+AND ICIX_V1__ICIX_Product__r.Prime_SKU__c = True
+AND Id not in (Select ICIX_V1__Testing_Program_Product__c
+FROM ICIX_V1__Testing_Program_Product_Category__c
+WHERE ICIX_V1__Product_Test_Category__c != Null AND ICIX_V1__Testing_Program_Product__c != Null))
+FROM ICIX_V1__ICIX_Product__c  
+	WHERE Id IN ('a0Q1I000003ukbKUAQ','a0Q1I000008ZuHUUA0','a0Q1I000008ZujvUAC')
