@@ -123,3 +123,111 @@ try{
     System.debug(LoggingLevel.ERROR, '@@@@@ SCRIP RESULT @@@@@@: '+ex.getMessage());
 	Database.rollback(sp);
 }
+
+
+/////******* CS-1238 - Completed or Canceled Tasks that are Not Falling Off the Open Task List - Delete those tasks *******///////
+//REQUEST LIST '154-DM-000099','154-DM-000096','154-DM-000097'
+//CS-1238
+Savepoint sp = Database.setSavepoint();
+try{
+	String reqIdToFix = '154-DM-000096';
+    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setContainerTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+	Map<String, ICIX_V1__Container__c> workflowToContainer = new Map<String, ICIX_V1__Container__c>();
+	Map<String, ICIX_V1__Recipient__c> workflowToRecipient = new Map<String, ICIX_V1__Recipient__c>();
+	ICIX_V1__Workflow_Instance__c wfToKeep; 
+	ICIX_V1__Workflow_Instance__c wfTodelete; 
+	ICIX_V1__Container__c con;
+	ICIX_V1__Recipient__c re;
+	System.debug(LoggingLevel.ERROR,'@@@@@ START @@@@@@: '+ reqIdToFix);
+
+	List<ICIX_V1__Request__c> requestList = [SELECT Id, ICIX_V1__Global_ID__c,ICIX_V1__Related_Request__c,ICIX_V1__Status__c,Name 
+															FROM ICIX_V1__Request__c WHERE ICIX_V1__Global_ID__c =: reqIdToFix];
+
+	List<ICIX_V1__Workflow_Instance__c> wiList = [SELECT Id, Name, ICIX_V1__RequestStatus__c,ICIX_V1__Container__c,ICIX_V1__Request__c, ICIX_V1__Request_Global_Id__c,ICIX_V1__Status__c,ICIX_V1__Workflow_Status__c 
+															FROM ICIX_V1__Workflow_Instance__c WHERE ICIX_V1__Request__c in: requestList];
+
+	List<ICIX_V1__Recipient__c> recipientList = [SELECT Name, ICIX_V1__Request__c, ICIX_V1__Status__c, ICIX_V1__Request_Global_Id__c,ICIX_V1__Workflow_Instance__c 
+ 															FROM ICIX_V1__Recipient__c  WHERE ICIX_V1__Workflow_Instance__c	 in: wiList AND Name = 'Inka Foods, Inc.'];
+
+	List<ICIX_V1__Container__c> containerList = [SELECT Id, Name, ICIX_V1__Recipient__c, ICIX_V1__Request__c, ICIX_V1__Workflow_Instance__c 
+															FROM ICIX_V1__Container__c WHERE ICIX_V1__Workflow_Instance__c In: wiList]; 
+	
+	for(ICIX_V1__Container__c cont : containerList){
+		workflowToContainer.put(cont.ICIX_V1__Workflow_Instance__c ,cont);
+	}
+
+	for(ICIX_V1__Recipient__c rec : recipientList){
+		workflowToRecipient.put(rec.ICIX_V1__Workflow_Instance__c ,rec);
+	}
+
+	for(ICIX_V1__Workflow_Instance__c wf : wiList){
+
+		if(wf.ICIX_V1__Status__c != 'Submitted by Requestor'){
+			wfToKeep = wf;
+		}else{
+			wfTodelete = wf;
+		}
+
+	}
+	System.debug(LoggingLevel.ERROR,'@@@@@ WORKFLOW TO KEEP @@@@@@: '+wfToKeep);
+	System.debug(LoggingLevel.ERROR,'@@@@@ WORKFLOW TO DELETE @@@@@@: '+wfTodelete);
+	
+	for(ICIX_V1__Workflow_Instance__c wf : wiList){
+
+		if(wf.id == wfToKeep.Id){
+			//Update Container on correct workflow
+			//1. Update Workflow id On Container
+			//	 Update the WF lookup to point it to Correct WF
+			con = workflowToContainer.get(wfTodelete.Id);
+			con.ICIX_V1__Workflow_Instance__c = wfToKeep.Id;
+
+			System.debug(LoggingLevel.ERROR,'@@@@@ FIXED CONTAINER TEMPLATE @@@@@@: '+con);
+		}else{
+			//2. Update WF lookup on Recepient:
+			//Update Task (Workflow lookup ) on the Recipient:
+			if(workflowToRecipient.get(wf.Id).Name == 'Inka Foods, Inc.' ){
+				
+				re = workflowToRecipient.get(wf.Id);
+				re.ICIX_V1__Workflow_Instance__c = wfToKeep.Id;
+				System.debug(LoggingLevel.ERROR,'@@@@@ FIXED RECIPIENT @@@@@@: '+re);
+
+			}
+		}
+	}
+
+	//UPDATE FIXED CONTAINER TEMPLATE
+	update con;
+	//UPDATE FIXED RECIPIENT
+	update re;
+	//Finally Delete Extra Workflow and Related Task
+	List<Task> tasktoDelete = [SELECT Id, WhatId FROM Task WHERE WhatId =: wfTodelete.Id];
+	System.debug(LoggingLevel.ERROR,'@@@@@ TASK TO DELETE @@@@@@: '+tasktoDelete);
+	delete tasktoDelete;
+
+	System.debug(LoggingLevel.ERROR,'@@@@@ WORKFLOW TO DELETE @@@@@@: '+wfTodelete);
+	delete wfTodelete;
+
+	//Close the Task for the correct Workflow if its already open
+	List<Task> tasktoUpdate = [SELECT Id, WhatId, Status FROM Task WHERE WhatId =: wfToKeep.Id];
+	for(task t : tasktoUpdate){
+
+		if(t.Status != 'Closed'){
+
+			t.Status = 'Closed';
+		}
+	}
+	System.debug(LoggingLevel.ERROR,'@@@@@ TASK TO UPDATE @@@@@@: '+tasktoUpdate);
+	update tasktoUpdate;
+
+	requestList[0].ICIX_V1__Status__c ='Closed';
+    update requestList[0];
+}catch(exception ex){
+    System.debug('@@@@@ SCRIP RESULT @@@@@@: '+ex.getMessage());
+    System.debug(LoggingLevel.ERROR, '@@@@@ SCRIP RESULT @@@@@@: '+ex.getMessage());
+	Database.rollback(sp);
+}	
+
+
