@@ -1,0 +1,2 @@
+List<ICIX_V1__Log__c> logsdelete = [Select Id from ICIX_V1__Log__c LIMIT 1000];
+delete logsdelete;
