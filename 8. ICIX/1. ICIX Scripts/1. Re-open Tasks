@@ -18,7 +18,7 @@ for(Task task: tasks){
 }
 update tasks;
 
-//Request
+//Update workflow and request status
 List<ICIX_V1__Request__c> requests=[SELECT Id, Name, ICIX_V1__Global_ID__c, ICIX_V1__Status__c 
 								FROM ICIX_V1__Request__c where Id='a161I000002vS85QAE'];
 for(ICIX_V1__Request__c request: requests){
