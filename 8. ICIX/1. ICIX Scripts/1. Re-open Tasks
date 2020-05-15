@@ -1,8 +1,17 @@
+///** Re-open for all users **////
+List<Task> tasks= [SELECT Id, Status, ICIX_V1__Request__c, ICIX_V1__Workflow_Status__c FROM Task WHERE ICIX_V1__Request__c='a161I000002iXyAQAU' AND Status='Closed'];
+for(Task task: tasks)
+{
+    task.Status='Open';
+}
+update tasks;
+
 /////* Re-open tasks for specific user *//////
 //Task
 List<Task> tasks= [SELECT Id, Status, ICIX_V1__Request__c, ICIX_V1__Workflow_Status__c FROM Task
 				   WHERE ICIX_V1__Request__c='a161I000002vS85QAE' 
 				   AND Owner.Name='Roddy Castro'
+				   //Owner.Name In ('Rose Marconi', 'Kim Mason')
 				   AND Status='Closed'];
 for(Task task: tasks){
 	task.Status='Open';
