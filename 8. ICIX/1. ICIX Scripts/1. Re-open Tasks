@@ -1,0 +1,29 @@
+//Task
+List<Task> tasks= [SELECT Id, Status, ICIX_V1__Request__c, ICIX_V1__Workflow_Status__c FROM Task
+				   WHERE ICIX_V1__Request__c='a161I000002vS85QAE' 
+				   AND Owner.Name='Roddy Castro'
+				   AND Status='Closed'];
+for(Task task: tasks){
+	task.Status='Open';
+}
+update tasks;
+
+//Request
+List<ICIX_V1__Request__c> requests=[SELECT Id, Name, ICIX_V1__Global_ID__c, ICIX_V1__Status__c 
+								FROM ICIX_V1__Request__c where Id='a161I000002vS85QAE'];
+for(ICIX_V1__Request__c request: requests){
+	request.ICIX_V1__Status__c= 'Open';
+}
+ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+update requests;
+
+//Workflow
+List<ICIX_V1__Workflow_Instance__c> workflowInstances=[SELECT Id, ICIX_V1__Request__c, ICIX_V1__Status__c 
+													 FROM ICIX_V1__Workflow_Instance__c
+													 WHERE ICIX_V1__Request__c='a161I000002vS85QAE'];
+for(ICIX_V1__Workflow_Instance__c workflowInstance:workflowInstances){
+	workflowInstance.ICIX_V1__Status__c='Submitted by Verifier';
+}
+ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);
+update workflowInstances;
+
