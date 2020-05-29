@@ -1,2 +1,4 @@
 List<ICIX_V1__Log__c> logsdelete = [Select Id from ICIX_V1__Log__c LIMIT 1000];
 delete logsdelete;
+
+Delete[SELECT ID, Name, ICIX_V1__Product_Test__c, ICIX_V1__Unique_ID__c FROM ICIX_V1__Product_Test_Limit__c WHERE ICIX_V1__Unique_ID__c Like '%dup%'];
