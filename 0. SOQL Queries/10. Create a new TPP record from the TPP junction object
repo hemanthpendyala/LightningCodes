@@ -1,0 +1,21 @@
+List<ICIX_V1__Testing_Program_Product__c> lstTPPNew = new List<ICIX_V1__Testing_Program_Product__c>();
+
+List<ICIX_V1__Testing_Program_Product__c> lstTPP = [Select Id,ICIX_V1__Testing_Program__r.name,ICIX_V1__ICIX_Product__c,ICIX_V1__Testing_Program__c from ICIX_V1__Testing_Program_Product__c where ICIX_V1__Testing_Program__r.name = 'Baby and Child Regulatory Old V2' limit 1];
+
+if(lstTPP.size() > 0)
+{
+System.debug('Old=>'+lstTPP);
+for(ICIX_V1__Testing_Program_Product__c obTPP : lstTPP)
+{
+ICIX_V1__Testing_Program_Product__c obnewTPP = new ICIX_V1__Testing_Program_Product__c();
+obnewTPP.ICIX_V1__Testing_Program__c = 'a1G1I000000aQ31UAE';
+obnewTPP.ICIX_V1__ICIX_Product__c = obTPP.ICIX_V1__ICIX_Product__c;
+lstTPPNew.add(obnewTPP);
+}
+System.debug('Newwwwww++++=>'+lstTPPNew);		
+if(lstTPPNew.size() > 0)
+{
+insert lstTPPNew;
+}
+System.debug('Newwwwww=>'+lstTPPNew);
+}
