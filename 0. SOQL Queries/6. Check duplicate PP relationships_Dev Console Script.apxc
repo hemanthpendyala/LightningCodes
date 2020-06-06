@@ -51,3 +51,40 @@ for(ICIX_V1__Product_Test__c ppr : pprs){
 }
 system.debug('++uniqueIds'+uniqueIds.size());
 system.debug('++duplicateIds'+duplicateIds.size());
+
+/////////////////////////////////////////////////////////////
+//Script to remove the tasks that are appearing twice for a particular user. Delete the tasks those are created later
+List<AggregateResult> acc=[SELECT owner.name name, count(Id) 
+                           FROM Task 
+                           WHERE ICIX_V1__Workflow_Status__c='Submitted By Verifier' 
+                           AND ICIX_V1__Request__c='a16f2000008wHF9AAM'
+                           GROUP BY owner.name 
+                           HAVING count(Id)>1];
+Set<string> ownerNames= new Set<string>();
+for(AggregateResult aggres : acc)
+{
+	ownerNames.add((string)aggres.get('Name'));
+}
+
+List<Task> tasks= [SELECT Id,CreatedDate,Owner.Name  
+				   FROM Task 
+				   WHERE Owner.Name in: ownerNames 
+				   AND ICIX_V1__Workflow_Status__c='Submitted By Verifier' 
+				   AND ICIX_V1__Request__c='a16f2000008wHF9AAM' 
+				   ORDER BY CreatedDate ASC];
+
+List<Task> tasksToDelete= new List<Task>();
+Map<string, List<Task>> mapTasks= new Map<string, List<Task>>();
+for(Task task : tasks){	
+    if(mapTasks.ContainsKey(task.owner.name)){
+       	mapTasks.get(task.owner.name).add(task);
+        tasksToDelete.add(task);      
+       }
+    else{
+		List<Task> tasks= new List<Task>();
+		tasks.add(task);
+        mapTasks.put(task.owner.name,tasks);		
+    }
+}
+
+delete tasksToDelete;
