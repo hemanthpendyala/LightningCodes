@@ -1,20 +1,15 @@
 String lastNoN = '';
 List<ICIX_V1__Product_Non_Universal_Id__c> listNoNUni;
-​
 if(lastNoN != ''){
 	listNoNUni = [SELECT Id,ICIX_V1__Id_Type__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__r.Name, ICIX_V1__Id_Value__c 
 																FROM ICIX_V1__Product_Non_Universal_Id__c WHERE id <:lastNoN ORDER BY Id desc LIMIT 50000];
 }else{
-​
 	listNoNUni = [SELECT Id,ICIX_V1__Id_Type__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__r.Name, ICIX_V1__Id_Value__c 
 																FROM ICIX_V1__Product_Non_Universal_Id__c  ORDER BY Id desc LIMIT 50000];
 }
-​
 system.debug('-------------Non Universal LIST SIZE --------------'+ listNoNUni.size());
-​
 Map<String, set<String>> uniToproMap = new Map<String, set<String>>();
 String lastpro = '';
-​
 for(ICIX_V1__Product_Non_Universal_Id__c pui : listNoNUni){
     if(uniToproMap.containsKey(pui.ICIX_V1__Id_Value__c+'-'+pui.ICIX_V1__Id_Type__c)){
     	if(!uniToproMap.get(pui.ICIX_V1__Id_Value__c+'-'+pui.ICIX_V1__Id_Type__c).contains(pui.ICIX_V1__UP_Relationship__r.ICIX_V1__Product__c)){
@@ -25,7 +20,6 @@ for(ICIX_V1__Product_Non_Universal_Id__c pui : listNoNUni){
     }
     lastNoN = pui.Id;
 }
-​
 for(String key : uniToproMap.keyset()){
 	if(uniToproMap.get(key).size() > 1){
 		system.debug('---------------------------');
@@ -35,5 +29,4 @@ for(String key : uniToproMap.keyset()){
 	    system.debug('---------------------------');
 	}    
 }
-​
 system.debug('-------------LAST --------------'+ lastNoN);
