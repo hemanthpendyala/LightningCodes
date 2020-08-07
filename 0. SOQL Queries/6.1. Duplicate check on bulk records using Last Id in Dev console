@@ -8,7 +8,7 @@ if(lastNoN != ''){
 ​
 	listNoNUni = [SELECT Id,ICIX_V1__Id_Type__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__c, ICIX_V1__UP_Relationship__r.ICIX_V1__Product__r.Name, ICIX_V1__Id_Value__c 
 																FROM ICIX_V1__Product_Non_Universal_Id__c  ORDER BY Id desc LIMIT 50000];
-}	
+}
 ​
 system.debug('-------------Non Universal LIST SIZE --------------'+ listNoNUni.size());
 ​
