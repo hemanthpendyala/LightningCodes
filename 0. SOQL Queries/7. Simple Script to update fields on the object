@@ -11,4 +11,4 @@ list<Task> lstTasks = [SELECT Id, OwnerId FROM Task Where ICIX_V1__Request__c = 
 if(lstTasks.size() > 0)
 {
     delete lstTasks;
-} 
+}
