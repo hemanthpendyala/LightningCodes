@@ -1,0 +1,4 @@
+
+//Get Salesforce Base URL.
+String strEndpointurl = URL.getSalesforceBaseUrl().toExternalForm();
+System.debug('xxxendpoint : ' + strEndpointurl);
