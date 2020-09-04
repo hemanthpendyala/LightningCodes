@@ -1,0 +1,61 @@
+List<String> requestId = new List<String>{'a161I000002dMqLQAU'};
+										
+if(requestId.size() > 0){
+
+	Savepoint sp = Database.setSavepoint();
+	try{
+	    
+	    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);    
+	    ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);    
+	    ICIX_V1.GlobalUtils.setContainerTriggerAllowUpdate(true);    
+	    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+	    ICIX_V1.GlobalUtils.setWorkflowStepTriggerAllowUpdate(true);
+
+		List<String>WIListIds = new List<String>();
+	    List<ICIX_V1__Workflow_Instance__c> WIList = [select Id from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request__c IN: requestId];
+	    
+	    System.debug('@@@@@ WIList @@@@@@: '+WIList.size() );
+	    
+	    for(ICIX_V1__Workflow_Instance__c wi : WIList){
+	        WIListIds.add(wi.Id);
+	        wi.ICIX_V1__Status__c = 'Cancelled';
+
+	    }
+
+	    List<ICIX_V1__Workflow_Step_Instance__c>WSIList = [select Id from ICIX_V1__Workflow_Step_Instance__c 
+	    														where ICIX_V1__Workflow_Instance__r.ICIX_V1__Request__c IN: requestId and ICIX_V1__Workflow_Instance__c IN: WIListIds];
+
+
+	    for(ICIX_V1__Workflow_Step_Instance__c wsi : WSIList){
+	        wsi.ICIX_V1__Status__c = 'Cancelled';
+
+	    }
+	    
+	    update WSIList;	
+	    update WIList;													
+	    
+	    List<ICIX_V1__Request__c> ReqList = [select Id from ICIX_V1__Request__c  where Id IN: requestId];
+
+		System.debug('@@@@@ WSIList @@@@@@: '+WSIList.size() );
+
+		for(ICIX_V1__Request__c req : ReqList){
+	        req.ICIX_V1__Status__c = 'Closed';
+
+	    }
+
+	    update ReqList;	
+	    
+	    System.debug('@@@@@ ReqList @@@@@@: '+ReqList.size()); 
+
+		for(ICIX_V1__Request__c req : ReqList){
+			ICIX_V1.RequestAPI.sendFullRequest(req.Id, null, null);
+            System.debug('@@@@@ sendFullRequest @@@@@@: '+req.Id);
+		}
+	    
+	}catch(exception ex){
+	    System.debug('@@@@@ ERROR @@@@@@: '+ex.getMessage());
+		Database.rollback(sp);
+	}
+
+
+}
