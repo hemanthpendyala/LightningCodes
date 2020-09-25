@@ -2,3 +2,17 @@ List<ICIX_V1__Log__c> logsdelete = [Select Id from ICIX_V1__Log__c LIMIT 1000];
 delete logsdelete;
 
 Delete[SELECT ID, Name, ICIX_V1__Product_Test__c, ICIX_V1__Unique_ID__c FROM ICIX_V1__Product_Test_Limit__c WHERE ICIX_V1__Unique_ID__c Like '%dup1%'];
+
+//Simple Deletion Batch
+public class deleteCategoriesBatch implements Database.Batchable<sObject>{   
+     public Database.QueryLocator start(Database.BatchableContext context) {
+        String query = 'Select id from ICIX_V1__UP_Relationship_Attribute__c where ICIX_V1__Attribute__r.name = \'Fill\'';
+        return database.getQueryLocator(query); 
+    }
+    public void execute(Database.BatchableContext context, List<ICIX_V1__UP_Relationship_Attribute__c> sObjectLst) {
+        
+        DELETE sObjectLst;
+    }
+    public void finish(Database.BatchableContext context) { 
+    }
+}
