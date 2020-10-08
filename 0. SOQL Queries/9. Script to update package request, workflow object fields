@@ -1,6 +1,5 @@
 /* Script to manually submit the request in responder Org */
 Savepoint sp = Database.setSavepoint();
-  String requestGlobalId ='a163u0000056aCrAAI';
   try {
     ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
     ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);
