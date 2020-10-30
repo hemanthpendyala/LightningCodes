@@ -1,0 +1,30 @@
+List<task> taskList = [SELECT Id, owner.name, whatId, Status, createdDate FROM task WHERE  Status = 'Open' AND createdDate > 2019-12-31T00:00:00Z LIMIT 20000];
+List<Id> listIds = new List<Id>();
+for(task t : taskList){
+	listIds.add(t.whatId);
+}
+Map<Id, ICIX_V1__Workflow_Instance__c> workflowList = new Map<Id, ICIX_V1__Workflow_Instance__c> ([SELECT Id, ICIX_V1__Request__c, ICIX_V1__Status__c, ICIX_V1__Request__r.ICIX_V1__ICIX_Product__c 
+																										FROM ICIX_V1__Workflow_Instance__c WHERE Id IN:listIds]);
+Map<String, List<Task>> taskTodelete = new Map<String, List<Task>>();
+for(Task t : taskList){
+	ICIX_V1__Workflow_Instance__c w = workflowList.get(t.whatId);
+	if(w != null){
+		String keyMap = t.owner.name+'-'+w.ICIX_V1__Request__r.ICIX_V1__ICIX_Product__c+'-'+w.ICIX_V1__Request__c+'-'+t.Status+'-'+w.ICIX_V1__Status__c;
+		if(taskTodelete.containskey(keyMap)){
+			taskTodelete.get(keyMap).add(t);
+		}else{
+            taskTodelete.put(keyMap, new List<Task>{t});
+		}
+	}
+}
+for(String key : taskTodelete.keyset()){
+	
+	if(taskTodelete.get(key).size() > 1){
+		System.debug('----------------------------------------------------------------------');
+		for(Task t : taskTodelete.get(key)){
+			System.debug(' TASK: ' + t);
+		}
+		System.debug('----------------------------------------------------------------------');
+	}
+	
+}
