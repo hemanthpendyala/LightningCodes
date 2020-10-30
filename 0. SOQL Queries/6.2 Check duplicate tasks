@@ -1,3 +1,4 @@
+//Check duplicate tasks
 List<task> taskList = [SELECT Id, owner.name, whatId, Status, createdDate FROM task WHERE  Status = 'Open' AND createdDate > 2019-12-31T00:00:00Z LIMIT 20000];
 List<Id> listIds = new List<Id>();
 for(task t : taskList){
@@ -26,5 +27,4 @@ for(String key : taskTodelete.keyset()){
 		}
 		System.debug('----------------------------------------------------------------------');
 	}
-	
 }
