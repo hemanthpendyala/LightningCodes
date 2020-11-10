@@ -1,3 +1,18 @@
+//Submit request in the REQUESTOR
+set<string> requestGlobalIdList= new set<string>();
+requestGlobalIdList.add('244-EN-041566');
+ICIX_V1.RequestAPI.rresubmit3AProductTestRequestAtRequester(requestGlobalIdList);
+
+//Submit request in the RESPONDER
+set<string> requestGlobalIdList= new set<string>();
+requestGlobalIdList.add('244-EN-041566');
+ICIX_V1.RequestAPI.rresubmit3AProductTestRequestAtResponder(requestGlobalIdList);
+
+//Submit request in the LAB
+set<string> requestGlobalIdList= new set<string>();
+requestGlobalIdList.add('244-EN-041566');
+ICIX_V1.RequestAPI.rresubmit3AProductTestRequestAtVerifier(requestGlobalIdList);
+
 /* Script to manually submit the request in responder Org */
 Savepoint sp = Database.setSavepoint();
   try {
