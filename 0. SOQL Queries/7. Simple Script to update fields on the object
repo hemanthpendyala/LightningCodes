@@ -6,6 +6,13 @@ for(ICIX_V1__Message__c ls : lst) {
 }
 update lst;
 
+//////
+//Submit request in the RESPONDER
+set<string> requestGlobalIdList= new set<string>();
+requestGlobalIdList.add('244-EN-041566');
+ICIX_V1.RequestAPI.resubmit3AProductTestRequestAtResponder(requestGlobalIdList);
+//////
+
 //To Delete///
 list<Task> lstTasks = [SELECT Id, OwnerId FROM Task Where ICIX_V1__Request__c = 'a161U000003k2MXQAY' AND OwnerId = '0051U000005CFAfQAO' LIMIT 1];
 if(lstTasks.size() > 0)
