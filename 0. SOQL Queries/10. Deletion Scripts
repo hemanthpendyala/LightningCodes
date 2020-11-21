@@ -2,7 +2,7 @@ List<ICIX_V1__Log__c> logsdelete = [Select Id from ICIX_V1__Log__c LIMIT 10000];
 delete logsdelete;
 
 Delete[SELECT ID, Name, ICIX_V1__Product_Test__c, ICIX_V1__Unique_ID__c FROM ICIX_V1__Product_Test_Limit__c WHERE ICIX_V1__Unique_ID__c Like '%dup1%'];
-Delete[[select id, ICIX_V1__Failed__c, ICIX_V1__Processed__c, ICIX_V1__Validated__c from ICIX_V1__Message__c where ICIX_V1__Request_Global_Id__c = 'a161I000002dZ6rQAE'];
+Delete[select id, ICIX_V1__Failed__c, ICIX_V1__Processed__c, ICIX_V1__Validated__c from ICIX_V1__Message__c where ICIX_V1__Request_Global_Id__c = 'a161I000002dZ6rQAE'];
 
 //Simple Deletion Batch
 public class deleteCategoriesBatch implements Database.Batchable<sObject>{   
