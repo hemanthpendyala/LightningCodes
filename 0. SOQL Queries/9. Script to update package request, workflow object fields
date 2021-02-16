@@ -13,6 +13,9 @@ set<string> requestGlobalIdList= new set<string>();
 requestGlobalIdList.add('244-EN-041566');
 ICIX_V1.RequestAPI.resubmit3AProductTestRequestAtVerifier(requestGlobalIdList);
 
+//Submit request in the requestor (2-actor)
+ICIX_V1.RequestAPI.resubmit2ARequestAtRequester(new Set<String> {'a0q1R00000Qbeq9QAB'}) ;
+
 /* Script to manually submit the request in responder Org */
 Savepoint sp = Database.setSavepoint();
   try {
