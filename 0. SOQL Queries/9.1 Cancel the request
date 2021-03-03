@@ -59,3 +59,41 @@ if(requestId.size() > 0){
 
 
 }
+
+//Delete the Request
+Savepoint sp = Database.setSavepoint();
+try{
+    
+    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);    
+    ICIX_V1.GlobalUtils.setWorkflowTriggerAllowUpdate(true);    
+    ICIX_V1.GlobalUtils.setContainerTriggerAllowUpdate(true);    
+    ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
+    ICIX_V1.GlobalUtils.setWorkflowStepTriggerAllowUpdate(true);
+	List<String>WIListIds = new List<String>();
+    List<ICIX_V1__Workflow_Instance__c> WIList = [select Id from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request__c IN: requestId];
+    
+    
+    for(ICIX_V1__Workflow_Instance__c ei : WIList){
+        WIListIds.add(ei.Id);
+    }
+    
+    List<ICIX_V1__Workflow_Step_Instance__c>WSIList = [select Id from ICIX_V1__Workflow_Step_Instance__c where ICIX_V1__Workflow_Instance__r.ICIX_V1__Request__c IN: requestId and ICIX_V1__Workflow_Instance__c IN: WIListIds];
+    
+    List<ICIX_V1__Recipient__c> RecList = [select Id from ICIX_V1__Recipient__c where ICIX_V1__Request__c IN: requestId];
+    
+    List<ICIX_V1__Request__c> ReqList = [select Id from ICIX_V1__Request__c  where Id IN: requestId];
+    
+    //List<Workflow_Comments__c> wcList = [Select Id, Name FROM Workflow_Comments__c WHERE Workflow__c IN: WIListIds];
+    
+    
+    List<Task> TaskList = [select Id from Task where ICIX_V1__Request__c  IN: requestId];
+    //delete wcList;
+    delete WSIList;
+    delete WIList;
+    delete RecList;
+    delete ReqList;
+    
+}catch(exception ex){
+    System.debug('@@@@@ TaskList @@@@@@: '+ex.getMessage());
+	Database.rollback(sp);
+}
