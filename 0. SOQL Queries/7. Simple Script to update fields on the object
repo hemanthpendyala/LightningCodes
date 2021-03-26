@@ -19,3 +19,6 @@ if(lstTasks.size() > 0)
 {
     delete lstTasks;
 } 
+
+//Query Using Date Field//
+select id from ICIX_V1__Product_Test__c where createdDate > 2021-03-22T00:00:00Z
