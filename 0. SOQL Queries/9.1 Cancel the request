@@ -70,6 +70,7 @@ try{
     ICIX_V1.GlobalUtils.setRequestTriggerAllowUpdate(true);
     ICIX_V1.GlobalUtils.setWorkflowStepTriggerAllowUpdate(true);
 	List<String>WIListIds = new List<String>();
+	List<String> requestId = new List<String>{'a161I000002dMqLQAU'};
     List<ICIX_V1__Workflow_Instance__c> WIList = [select Id from ICIX_V1__Workflow_Instance__c where ICIX_V1__Request__c IN: requestId];
     
     
