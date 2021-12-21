@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "22847211-0691-45e1-9d3b-377b954f61f8",
+		"name": "RH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://rh-icix--rhpsf.my.salesforce.com/services/apexrest/ICIX_V1/pushdata/v4",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true,
+					"accept": true,
+					"user-agent": true,
+					"host": true,
+					"content-length": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "00D0v000000E7P4!ARgAQGiGIK9p4dQihAurxtp4VQDK31Bg2vX7VmgAQT9GsohejusfdO1Y14MNiuDIHJSnCKmNPN4JIokSu11Vjm.s0U3TAizo",
+							"type": "string"
+						},
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"Command\": \"AddProducts\",\n    \"ApiParameters\": \"{\\n  \\\"Products\\\": [\\n    {\\n      \\\"CompanyICIXID\\\": \\\"158542\\\",\\n      \\\"IcixProductName\\\": \\\"KL - QUATREFOIL LARGE DRESSER_111941BRSSLKL\\\",\\n      \\\"Description\\\": \\\"KL - QUATREFOIL LARGE DRESSER\\\",\\n      \\\"RelationshipType\\\": \\\"Buy\\\",\\n      \\\"Status\\\": \\\"Active\\\",\\n      \\\"TradingPartnerIdType\\\": \\\"Vendor\\\",\\n      \\\"TradingPartnerId\\\": \\\"6666\\\",\\n      \\\"ProductIdTypesAndValues\\\": {\\n        \\\"SKU\\\": \\\"111941BRSSLKL\\\"\\n      },\\n      \\\"Attributes\\\": {\\n        \\\"BOM\\\": \\\"NA\\\",\\n        \\\"CLASS_#\\\": \\\"8202\\\",\\n        \\\"CLASS_NAME\\\": \\\"MIRRORS\\\",\\n        \\\"COLLECTION\\\": \\\"QUATREFOIL MIRROR\\\",\\n        \\\"COLOR\\\": \\\"BRSS\\\",\\n        \\\"CONCEPT\\\": \\\"B&C\\\",\\n        \\\"COUNTRY_OF_ORIGIN\\\": \\\"CHN\\\",\\n        \\\"DEPT_NAME\\\": \\\"BCT DECOR\\\",\\n        \\\"DEPT_NUMBER\\\": \\\"8200\\\",\\n        \\\"DIVISION_NAME\\\": \\\"B&C + TEEN\\\",\\n        \\\"DIVISION_NUMBER\\\": \\\"8\\\",\\n        \\\"FABRIC\\\": \\\"NA\\\",\\n        \\\"FILL\\\": \\\"NA\\\",\\n        \\\"FINISH\\\": \\\"NA\\\",\\n        \\\"FRAME\\\": \\\"WALL MIRROR\\\",\\n        \\\"ITEM_NUMBER\\\": \\\"111941\\\",\\n        \\\"MIN_PO_CANCEL_DATE\\\": \\\"7/3/19\\\",\\n        \\\"PRIME_SKU\\\": \\\"Yes\\\",\\n        \\\"PRODUCT_FUNCTION\\\": \\\"MIRRORS\\\",\\n        \\\"RELATIONSHIP_TYPE\\\": \\\"Related\\\",\\n        \\\"SEASON\\\": \\\"S19\\\",\\n        \\\"SIZE\\\": \\\"LKL\\\",\\n        \\\"SKU_CREATE_DATE\\\": \\\"3/1/19\\\",\\n        \\\"SKU_START_SELLING_DATE\\\": \\\"2/10/19\\\",\\n        \\\"SKU_STATUS\\\": \\\"A\\\",\\n        \\\"SUBDEPT_NAME\\\": \\\"WALL DECOR\\\",\\n        \\\"SUBDEPT_NUMBER\\\": \\\"820\\\",\\n        \\\"UPC\\\": \\\"4.18E+11\\\",\\n        \\\"VENDOR_SKU_DESCRIPTION\\\": \\\"QUATREFOIL LARGE DRESSER BRSS \\\",\\n        \\\"VENDOR_STYLE_#\\\": \\\"M1024ABRS\\\"\\n      },\\n      \\\"ProductTestSettings\\\": [\\n        {\\n          \\\"Program\\\": \\\"BC Regulatory\\\",\\n          \\\"Categories\\\": [\\n            \\\"BC_Mirror_A\\\",\\n            \\\"BC_Mirror_F\\\",\\n            \\\"BC_Mirror_L\\\",\\n            \\\"BC_Mirror_P\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        },\\n        {\\n          \\\"Program\\\": \\\"BC Quality\\\",\\n          \\\"Categories\\\": [\\n            \\\"BC Quality_Mirror_Q\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        }\\n      ]\\n    },\\n    {\\n      \\\"CompanyICIXID\\\": \\\"158542\\\",\\n      \\\"IcixProductName\\\": \\\"KL - WOODEN ETHNIC STOOL 1_10010761NAKL\\\",\\n      \\\"Description\\\": \\\"KL - WOODEN ETHNIC STOOL 1\\\",\\n      \\\"RelationshipType\\\": \\\"Buy\\\",\\n      \\\"Status\\\": \\\"Active\\\",\\n      \\\"TradingPartnerIdType\\\": \\\"Vendor\\\",\\n      \\\"TradingPartnerId\\\": \\\"6666\\\",\\n      \\\"ProductIdTypesAndValues\\\": {\\n        \\\"SKU\\\": \\\"10010761NAKL\\\"\\n      },\\n      \\\"Attributes\\\": {\\n        \\\"BOM\\\": \\\"NA\\\",\\n        \\\"CLASS_#\\\": \\\"4154\\\",\\n        \\\"CLASS_NAME\\\": \\\"PLINTH\\\",\\n        \\\"COLLECTION\\\": \\\"WOODEN ETHNIC STOOLS\\\",\\n        \\\"COLOR\\\": \\\"NAKL\\\",\\n        \\\"CONCEPT\\\": \\\"CORE\\\",\\n        \\\"COUNTRY_OF_ORIGIN\\\": \\\"IND\\\",\\n        \\\"DEPT_NAME\\\": \\\"HOME ACCESSORIES\\\",\\n        \\\"DEPT_NUMBER\\\": \\\"4000\\\",\\n        \\\"DIVISION_NAME\\\": \\\"DECOR\\\",\\n        \\\"DIVISION_NUMBER\\\": \\\"3\\\",\\n        \\\"FABRIC\\\": \\\"NA\\\",\\n        \\\"FILL\\\": \\\"NA\\\",\\n        \\\"FINISH\\\": \\\"NA\\\",\\n        \\\"FRAME\\\": \\\"STOOLS\\\",\\n        \\\"ITEM_NUMBER\\\": \\\"10010761\\\",\\n        \\\"MIN_PO_CANCEL_DATE\\\": \\\"6/7/19\\\",\\n        \\\"PRIME_SKU\\\": \\\"Yes\\\",\\n        \\\"PRODUCT_FUNCTION\\\": \\\"FURNITURE\\\",\\n        \\\"RELATIONSHIP_TYPE\\\": \\\"Related\\\",\\n        \\\"SEASON\\\": \\\"S19\\\",\\n        \\\"SIZE\\\": \\\"\\\",\\n        \\\"SKU_CREATE_DATE\\\": \\\"1/24/19\\\",\\n        \\\"SKU_START_SELLING_DATE\\\": \\\"5/7/19\\\",\\n        \\\"SKU_STATUS\\\": \\\"A\\\",\\n        \\\"SUBDEPT_NAME\\\": \\\"FURNITURE\\\",\\n        \\\"SUBDEPT_NUMBER\\\": \\\"415\\\",\\n        \\\"UPC\\\": \\\"4.18E+11\\\",\\n        \\\"VENDOR_SKU_DESCRIPTION\\\": \\\"WOODEN ETHNIC STOOL 1 NATL\\\",\\n        \\\"VENDOR_STYLE_#\\\": \\\"GRH-415\\\"\\n      },\\n      \\\"ProductTestSettings\\\": [\\n        {\\n          \\\"Program\\\": \\\"MB Regulatory\\\",\\n          \\\"Categories\\\": [\\n            \\\"MB_Indoor Seating_A\\\",\\n            \\\"MB_Indoor Seating_F\\\",\\n            \\\"MB_Indoor Seating_L\\\",\\n            \\\"MB_Indoor Seating_P\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        },\\n        {\\n          \\\"Program\\\": \\\"MB Quality\\\",\\n          \\\"Categories\\\": [\\n            \\\"MB Quality_Indoor Seating_Q\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        }\\n      ]\\n    },\\n    {\\n      \\\"CompanyICIXID\\\": \\\"158542\\\",\\n      \\\"IcixProductName\\\": \\\"KL - WOODEN ETHNIC STOOL 2_10010759NAKL\\\",\\n      \\\"Description\\\": \\\"KL - WOODEN ETHNIC STOOL 2\\\",\\n      \\\"RelationshipType\\\": \\\"Buy\\\",\\n      \\\"Status\\\": \\\"Active\\\",\\n      \\\"TradingPartnerIdType\\\": \\\"Vendor\\\",\\n      \\\"TradingPartnerId\\\": \\\"6666\\\",\\n      \\\"ProductIdTypesAndValues\\\": {\\n        \\\"SKU\\\": \\\"10010759NAKL\\\"\\n      },\\n      \\\"Attributes\\\": {\\n        \\\"BOM\\\": \\\"NA\\\",\\n        \\\"CLASS_#\\\": \\\"4154\\\",\\n        \\\"CLASS_NAME\\\": \\\"PLINTH\\\",\\n        \\\"COLLECTION\\\": \\\"WOODEN ETHNIC STOOLS\\\",\\n        \\\"COLOR\\\": \\\"NAKL\\\",\\n        \\\"CONCEPT\\\": \\\"CORE\\\",\\n        \\\"COUNTRY_OF_ORIGIN\\\": \\\"IND\\\",\\n        \\\"DEPT_NAME\\\": \\\"HOME ACCESSORIES\\\",\\n        \\\"DEPT_NUMBER\\\": \\\"4000\\\",\\n        \\\"DIVISION_NAME\\\": \\\"DECOR\\\",\\n        \\\"DIVISION_NUMBER\\\": \\\"3\\\",\\n        \\\"FABRIC\\\": \\\"NA\\\",\\n        \\\"FILL\\\": \\\"NA\\\",\\n        \\\"FINISH\\\": \\\"NA\\\",\\n        \\\"FRAME\\\": \\\"STOOLS\\\",\\n        \\\"ITEM_NUMBER\\\": \\\"10010759\\\",\\n        \\\"MIN_PO_CANCEL_DATE\\\": \\\"6/7/19\\\",\\n        \\\"PRIME_SKU\\\": \\\"Yes\\\",\\n        \\\"PRODUCT_FUNCTION\\\": \\\"FURNITURE\\\",\\n        \\\"RELATIONSHIP_TYPE\\\": \\\"Related\\\",\\n        \\\"SEASON\\\": \\\"S19\\\",\\n        \\\"SIZE\\\": \\\"\\\",\\n        \\\"SKU_CREATE_DATE\\\": \\\"1/24/19\\\",\\n        \\\"SKU_START_SELLING_DATE\\\": \\\"5/7/19\\\",\\n        \\\"SKU_STATUS\\\": \\\"A\\\",\\n        \\\"SUBDEPT_NAME\\\": \\\"FURNITURE\\\",\\n        \\\"SUBDEPT_NUMBER\\\": \\\"415\\\",\\n        \\\"UPC\\\": \\\"4.18E+11\\\",\\n        \\\"VENDOR_SKU_DESCRIPTION\\\": \\\"WOODEN ETHNIC STOOL 2 NATL\\\",\\n        \\\"VENDOR_STYLE_#\\\": \\\"GRH-424\\\"\\n      },\\n      \\\"ProductTestSettings\\\": [\\n        {\\n          \\\"Program\\\": \\\"MB Regulatory\\\",\\n          \\\"Categories\\\": [\\n            \\\"MB_Indoor Seating_P\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        },\\n        {\\n          \\\"Program\\\": \\\"MB Quality\\\",\\n          \\\"Categories\\\": [\\n            \\\"MB Quality_Indoor Seating_Q\\\"\\n          ],\\n          \\\"TestLevels\\\": [\\n            \\\"Finished Good\\\"\\n          ]\\n        }\\n      ]\\n    }\\n  ]\\n}\"\n  }\n}"
+				},
+				"url": {
+					"raw": "https://rh-icix--rhpsf.my.salesforce.com/services/apexrest/ICIX_V1/pushdata/v4",
+					"protocol": "https",
+					"host": [
+						"rh-icix--rhpsf",
+						"my",
+						"salesforce",
+						"com"
+					],
+					"path": [
+						"services",
+						"apexrest",
+						"ICIX_V1",
+						"pushdata",
+						"v4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
