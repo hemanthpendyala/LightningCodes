@@ -1,0 +1,77 @@
+JSON for RH testing:
+{
+"Products": [
+{
+"CompanyICIXID": "158542",
+"IcixProductName": "WRAPPED YARN WALL HANGING_603058IVOR",
+"Description": "WRAPPED YARN WALL HANGING",
+"RelationshipType": "Buy",
+"Status": "Active",
+"TradingPartnerIdType": "Vendor",
+"TradingPartnerId": "7216",
+"ProductIdTypesAndValues": {
+"SKU": "603058IVOR"
+},
+"Attributes": {
+"BOM": "NA",
+"CLASS_#": "8207",
+"CLASS_NAME": "TAPESTRIES",
+"COLLECTION": "WRAPPED WALL HANGING",
+"COLOR": "IVOR",
+"CONCEPT": "TEEN",
+"COUNTRY_OF_ORIGIN": "IND",
+"DEPT_NAME": "BCT DECOR",
+"DEPT_NUMBER": "8200",
+"DIVISION_NAME": "B&C + TEEN",
+"DIVISION_NUMBER": "8",
+"FABRIC": "NA",
+"FILL": "NA",
+"FINISH": "NA",
+"FRAME": "TEXTILE TAPESTRY",
+"ITEM_NUMBER": "603058",
+"MIN_PO_CANCEL_DATE": "01/23/22",
+"PRIME_SKU": "Yes",
+"PRODUCT_FUNCTION": "TAPESTRIES",
+"PROCUREMENT_ENTITY": "US",
+"RELATIONSHIP_TYPE": "Related",
+"SEASON": "F21",
+"SIZE": "",
+"SKU_CREATE_DATE": "07/02/21",
+"SKU_START_SELLING_DATE": "08/21/21",
+"SKU_STATUS": "A",
+"SUBDEPT_NAME": "WALL DECOR",
+"SUBDEPT_NUMBER": "820",
+"UPC": "500041000000",
+"VENDOR_SKU_DESCRIPTION": "WRAPPED YARN WALL HANGING IVOR",
+"VENDOR_STYLE_#": "RO-FW21-WH-45X54"
+},
+"ProductTestSettings": [
+{
+"Program": "Teen Regulatory",
+"Categories": [
+"Teen_General Decor_A",
+"Teen_General Decor_F",
+"Teen_General Decor_L",
+"Teen_General Decor_P"
+],
+"TestLevels": [
+"Finished Good"
+]
+},
+{
+"Program": "Teen Quality",
+"Categories": [
+"Teen Quality_General Decor_Q"
+],
+"TestLevels": [
+"Finished Good"
+]
+}
+]
+}
+]
+}
+
+/services/apexrest/ICIX_V1/pushdata/v2/
+
+{"settings":{"Command":"AddProducts","Async":false,"ApiParameters":"{\"Products\":[{\"CompanyICIXID\":\"158542\",\"IcixProductName\":\"WRAPPED YARN WALL HANGING_603058IVOR\",\"Description\":\"WRAPPED YARN WALL HANGING\",\"RelationshipType\":\"Buy\",\"Status\":\"Active\",\"TradingPartnerIdType\":\"Vendor\",\"TradingPartnerId\":\"7216\",\"ProductIdTypesAndValues\":{\"SKU\":\"603058IVOR\"},\"Attributes\":{\"BOM\":\"NA\",\"CLASS_#\":\"8207\",\"CLASS_NAME\":\"TAPESTRIES\",\"COLLECTION\":\"WRAPPED WALL HANGING\",\"COLOR\":\"IVOR\",\"CONCEPT\":\"TEEN\",\"COUNTRY_OF_ORIGIN\":\"IND\",\"DEPT_NAME\":\"BCT DECOR\",\"DEPT_NUMBER\":\"8200\",\"DIVISION_NAME\":\"B&C + TEEN\",\"DIVISION_NUMBER\":\"8\",\"FABRIC\":\"NA\",\"FILL\":\"NA\",\"FINISH\":\"NA\",\"FRAME\":\"TEXTILE TAPESTRY\",\"ITEM_NUMBER\":\"603058\",\"MIN_PO_CANCEL_DATE\":\"01/23/22\",\"PRIME_SKU\":\"Yes\",\"PRODUCT_FUNCTION\":\"TAPESTRIES\",\"PROCUREMENT_ENTITY\":\"US\",\"RELATIONSHIP_TYPE\":\"Related\",\"SEASON\":\"F21\",\"SIZE\":\"\",\"SKU_CREATE_DATE\":\"07/02/21\",\"SKU_START_SELLING_DATE\":\"08/21/21\",\"SKU_STATUS\":\"A\",\"SUBDEPT_NAME\":\"WALL DECOR\",\"SUBDEPT_NUMBER\":\"820\",\"UPC\":\"500041000000\",\"VENDOR_SKU_DESCRIPTION\":\"WRAPPED YARN WALL HANGING IVOR\",\"VENDOR_STYLE_#\":\"RO-FW21-WH-45X54\"},\"ProductTestSettings\":[{\"Program\":\"Teen Regulatory\",\"Categories\":[\"Teen_General Decor_A\",\"Teen_General Decor_F\",\"Teen_General Decor_L\",\"Teen_General Decor_P\"],\"TestLevels\":[\"Finished Good\"]},{\"Program\":\"Teen Quality\",\"Categories\":[\"Teen Quality_General Decor_Q\"],\"TestLevels\":[\"Finished Good\"]}]}]}"}}
