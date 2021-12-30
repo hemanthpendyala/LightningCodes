@@ -91,3 +91,31 @@ if(testingPrg != null){
     }
 
 }
+
+Script-02:
+List<ICIX_V1__Product_Test_Attribute__c> productTestAttributeList = new List<ICIX_V1__Product_Test_Attribute__c>();
+productTestAttributeList = [SELECT Id, ICIX_V1__Attribute_Value__c,
+                        ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__c, 
+                        ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__r.name 
+                        FROM ICIX_V1__Product_Test_Attribute__c
+                        WHERE ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__r.ICIX_V1__Testing_Program__c = 'a1G1I000000W8hGUAS'];
+List<String> categorySplitList = new List<String>();
+String testLevel = '';
+List<ICIX_V1__Product_Test_Attribute__c> ptaUpdateList = new List<ICIX_V1__Product_Test_Attribute__c>();													
+if(productTestAttributeList.size()>0 && !productTestAttributeList.isEmpty()){
+for(ICIX_V1__Product_Test_Attribute__c pta: productTestAttributeList){
+if(pta.ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__r.name.contains('_')) {
+    categorySplitList = pta.ICIX_V1__Product_Test__r.ICIX_V1__Product_Test_Category__r.name.split('_');
+    if(categorySplitList.size() == 3){
+        testLevel = categorySplitList[2];
+    }
+if(pta.ICIX_V1__Attribute_Value__c == 'US' || pta.ICIX_V1__Attribute_Value__c == 'UK' || pta.ICIX_V1__Attribute_Value__c == 'EU'){
+    pta.ICIX_V1__Attribute_Value__c = pta.ICIX_V1__Attribute_Value__c+'_'+testLevel;
+    ptaUpdateList.add(pta);
+}
+}
+}
+if(ptaUpdateList.size()>0 && !ptaUpdateList.isEmpty()){ // Updating product test attribute values
+update ptaUpdateList;
+}
+}
