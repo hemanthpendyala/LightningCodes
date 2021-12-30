@@ -1,0 +1,93 @@
+String testingPrgName= 'Teen Quality';
+
+List<ICIX_V1__Product_Test__c> prodTestLst= new List<ICIX_V1__Product_Test__c>();
+
+List<ICIX_V1__Product_Test_Attribute__c> newProTestAttrLst = new List<ICIX_V1__Product_Test_Attribute__c>();
+
+ 
+
+ICIX_V1__Testing_Program__c testingPrg = [SELECT Name,ICIX_V1__Active__c,ICIX_V1__Certificate_Template__c,ICIX_V1__is_Active__c,ICIX_V1__Is_Certification_Program__c
+
+                                                        FROM ICIX_V1__Testing_Program__c WHERE name =: testingPrgName LIMIT 1];
+
+                                                        
+
+if(testingPrg != null){
+
+    List<ICIX_V1__Product_Test_Category__c> proTestCategory = [SELECT Id, ICIX_V1__Testing_Program_Global_Id__c,ICIX_V1__Testing_Program__c,ICIX_V1__Unique_ID__c,Name,(select id,ICIX_V1__Product_Test_Category__c,Name from ICIX_V1__Product_Tests__r) FROM ICIX_V1__Product_Test_Category__c WHERE ICIX_V1__Testing_Program__c =: testingPrg.Id and ID = 'a0w1I0000061eRWQAY'];
+
+                                                                  
+
+    for(ICIX_V1__Product_Test_Category__c testCat: proTestCategory){
+
+        for(ICIX_V1__Product_Test__c pt: testCat.ICIX_V1__Product_Tests__r){
+
+            prodTestLst.add(pt);
+
+        }
+
+        system.debug('prodTestLst=== '+json.serialize(prodTestLst));
+
+        system.debug('prodTestLst size=== '+prodTestLst.size());
+
+    }
+
+   
+
+            ICIX_V1__Attribute__c attribute= [select Id,Name from ICIX_V1__Attribute__c where Name = 'PROCUREMENT_ENTITY' LIMIT 1];
+
+           
+
+    if(!prodTestLst.isEmpty()){
+
+        List<ICIX_V1__Product_Test__c> prodTestLst = [SELECT id, (Select Name,ICIX_V1__Product_Test__c,ICIX_V1__Product_Test__r.Name,ICIX_V1__Attribute_Value__c,Id,ICIX_V1__Product_Test_Global_Id__c,ICIX_V1__Attribute__c,ICIX_V1__Attribute__r.Name,ICIX_V1__Unique_ID__c from ICIX_V1__Product_Test_Attributes__r) FROM ICIX_V1__Product_Test__c WHERE Id in:prodTestLst];
+
+                       
+
+ 
+
+                        for(ICIX_V1__Product_Test__c proTest: prodTestLst){
+
+                                    List<String> attrLst= new List<String>();
+
+            for(ICIX_V1__Product_Test_Attribute__c attr: proTest.ICIX_V1__Product_Test_Attributes__r){
+
+                                                attrLst.add(attr.ICIX_V1__Attribute_Value__c);
+
+                                    }
+
+                                    Set<String> attrValSet= new Set<String>{'US','UK','EU'};
+
+                                    attrValSet.removeAll(attrLst);
+
+                                    for(String s: attrValSet){
+
+                                                ICIX_V1__Product_Test_Attribute__c newProTestAttr = new ICIX_V1__Product_Test_Attribute__c();
+
+                                                newProTestAttr.ICIX_V1__Product_Test__c = proTest.Id;  
+
+                                                newProTestAttr.ICIX_V1__Attribute__c =  attribute.Id;
+
+                                                newProTestAttr.ICIX_V1__Attribute_Value__c = s;
+
+                                                newProTestAttr.Name= attribute.Name +' '+ '=' + ' '+ s;
+
+                                                newProTestAttrLst.add(newProTestAttr);
+
+                                    }
+
+                        }
+
+                        system.debug('newProTestAttrLst=== '+json.serialize(newProTestAttrLst));
+
+        system.debug('newProTestAttrLst size=== '+newProTestAttrLst.size());
+
+            }
+
+            if(!newProTestAttrLst.isEmpty()){
+
+        //insert newProTestAttrLst;
+
+    }
+
+}
