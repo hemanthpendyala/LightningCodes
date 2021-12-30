@@ -1,0 +1,22 @@
+Salesforce certified Einstein Analytics consultant
+Data preparation/ELT – to be able to understand source data and advise on ELT transformations to achieve desired data structures for EA
+Dataflow build – to manipulate and join data from Salesforce and external systems in SFDC Native dataflow editor
+Salesforce Analytics Query Language (SAQL) - advanced experience of SAQL
+Advanced EA dashboard building skills and a deep understanding of JSON
+Significant UI design experience to advise on the best way to visualize data based on different use cases
+Security modelling experience in Einstein including security predicate and app based security
+Enable EA solution to be embedded into wider SFDC ecosystem
+
+Created Datasets through CSV files, Recipes, through Connect to Data option from Mulesoft MySQL Connector, Snowflake and used “Connect Data Source” to connect Datasets.
+Worked with XMD files for Dataset changes.
+Used Compare tables for summarizing the data and comparing columns.
+Extensive knowledge on Dataflow editor - For Multi-value Lookup, Data Flattening, Snapshotting etc.
+Extensive knowldge on Binding concepts
+Embedded Dashboards on the Lighting record pages and also used Manual Syntax way for Embedding.
+Uploaded custom geoJSON files and used the maps in the Dashboards.
+Used the Dashboard Pages and build smart Dashboards with HIDE/SHOW options.
+Customized Layouts for various devices
+Hands-on experience using Sharing inheritance and Security predicates.
+Migrated the Assets and used the Encryption
+Developed a framework that creates the datasets using the Apex batch class.
+Followed best practices with the data layer and designer layer.
