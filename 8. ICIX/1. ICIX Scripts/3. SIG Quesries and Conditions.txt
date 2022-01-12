@@ -1,0 +1,27 @@
+Questionnaire 4 & 5 condition:
+SELECT id,
+ICIX_V1__Product__c,
+ICIX_V1__Product__r.createddate,
+ICIX_V1__Product__r.Product_Tested__c,
+ICIX_V1__Product__r.Product_Status__c,
+ICIX_V1__Related_Account__c,
+ICIX_V1__Related_Account__r.Name,
+ICIX_V1__Related_Account__r.Last_Tested_Date__c
+FROM ICIX_V1__UP_Relationship__c
+WHERE ICIX_V1__Product__r.Product_Status__c = 'Active'
+AND ICIX_V1__Related_Account__c = '0015Y00002oMR7XQAW'
+AND ICIX_V1__Related_Account__r.Reach_Safe_Datasheet_Processed__c = true
+AND ( ( ICIX_V1__Product__r.DataSheet_Request1__c = false
+AND ICIX_V1__Product__r.DataSheet_Request2__c = false
+AND ( ICIX_V1__Product__r.Reach_Regulation__c = 'Compliance Required'
+OR ICIX_V1__Product__r.Safe_Handling__c  = 'Compliance Required'
+) )
+OR
+( ICIX_V1__Product__r.DataSheet_Request1__c = true
+AND ICIX_V1__Product__r.DataSheet_Request2__c = false
+AND ICIX_V1__Product__r.DataSheet_Request1_Approved__c = true
+AND ICIX_V1__Related_Account__r.DataSheetRequests_ApprovedAll__c = true
+AND ( ICIX_V1__Product__r.Reach_Regulation__c = 'Assessed - Failed'
+OR ICIX_V1__Product__r.Safe_Handling__c  = 'Assessed - Failed'
+))
+)
