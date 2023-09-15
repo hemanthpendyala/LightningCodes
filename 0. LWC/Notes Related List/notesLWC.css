@@ -1,0 +1,38 @@
+.dummy{
+	color : black;
+}
+.marginStyle{
+	padding-top: 18px;
+}
+
+.footerStyle{
+	height: 44px;
+}
+
+.pointer-link{
+	cursor: pointer;
+	pointer-events:all;
+
+}
+
+.pointer-remove{
+	cursor: none;
+	pointer-events:all;
+
+}
+
+
+.truncate .slds-truncate[c-notesLWC_notesLWC]{
+    white-space: normal;
+	padding-left: 50px;
+}
+
+.notehead{
+	padding-left: 58px;
+}
+
+.readmore{
+	font-weight: bold;
+    font-size: 15px;
+    padding-left: 15px;
+}
