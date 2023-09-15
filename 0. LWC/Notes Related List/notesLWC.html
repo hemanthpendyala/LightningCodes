@@ -1,0 +1,144 @@
+<template>
+    <div if:true={showLoading} class="slds-is-relative">
+       <lightning-spinner variant="brand" alternative-text="Loading...">
+       </lightning-spinner>
+    </div>
+    <article class="slds-card">
+       <div class="slds-card__header slds-grid">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate">
+             <div class="slds-media__body">
+                <lightning-layout>
+                   <lightning-layout-item size="8" padding="around-small">
+                      <div>
+                         <lightning-input
+                            name="enter-search"
+                            value={searchRes}
+                            placeholder="Search Notes by their Subject or Content"
+                            type="search"
+                            onchange={searchRecords}>
+                         </lightning-input>
+                      </div>
+                   </lightning-layout-item>
+                   <lightning-layout-item size="4" padding="around-small">
+                      <div class="marginStyle">
+                         <button class="slds-button slds-button_success" onclick={createNotes}>Add Note/Meeting</button>
+                      </div>
+                   </lightning-layout-item>
+                </lightning-layout>
+             </div>
+          </header>
+       </div>
+       <div class="slds-scrollable slds-m-around_medium">
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" aria-label="Example table of Opportunities with striped rows">
+             <thead>
+                <tr class="slds-line-height_reset">
+                   <th class="" scope="col">
+                      <div class="slds-truncate" title="Opportunity Name">DATE/BY</div>
+                   </th>
+              <!--     <th class="" scope="col">
+                      <div class="slds-truncate" title="Account Name">TYPE/SHARED WITH</div>
+                   </th> -->
+                   <th class="notehead" scope="col">
+                      <div class="slds-truncate" title="Close Date">NOTE</div>
+                   </th>
+                </tr>
+             </thead>
+             <tbody>
+                <template for:each={notesRecords} for:item="recs"> 
+                   <tr class="slds-hint-parent" key={recs.Id}>
+                      <td data-label="Opportunity Name" scope="row">
+                         <div class="slds-truncate" title="Cloudhub">
+                            <p>
+                               <lightning-formatted-date-time value={recs.CreatedDate}></lightning-formatted-date-time>
+                            </p>
+                            <br/>
+                            <p>{recs.Owner.Name}</p>
+                         </div>
+                      </td>
+                   
+                      <td data-label="Close Date" class="truncate">
+                         <div class="slds-truncate" title="4/14/2015">
+                         <br/><br/>
+                            <p><b>Subject:</b> {recs.Subject__c} </p> 
+                            <br />
+<p  template if:true={recs.hide123} class="notes1"><b>Note:</b> {recs.subnotes}
+<span data-id={recs.key}  onclick={handleclickReadMore} class="readmore" lwc:if={recs.totalnote}>&nbsp;Read More...</span>
+</p>
+
+<p class="notes2" template if:true={recs.show123}><b>Note:</b> {recs.totalnote}</p>                          
+
+                              
+
+                            <br/><br/>
+                            
+                         </div>
+                      </td>
+                      <td>
+                         <lightning-icon icon-name="utility:edit"  class="pointer-link"  onclick={editRecords}  data-id={recs.Id} alternative-text="Edit!" title="default style" size="x-small"></lightning-icon>
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         <lightning-icon icon-name="utility:delete" class="pointer-link" onclick={handleConfirmClick} data-id={recs.Id} alternative-text="Delete!" title="default style" size="x-small"></lightning-icon>
+                      </td>
+                   </tr>
+                </template>
+             </tbody>
+          </table>
+       </div>
+    </article>
+    <template if:true={showModal}>
+       <!-- Modal/Popup Box LWC starts here -->
+       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+             <!-- Modal/Popup Box LWC header here -->
+             <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleDialogClose}>
+                   <lightning-icon icon-name="utility:close"
+                      alternative-text="close"
+                      variant="inverse"
+                      size="small" ></lightning-icon>
+                   <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{header}</h2>
+             </header>
+             <!-- Modal/Popup Box LWC body starts here -->
+             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-record-edit-form
+                   record-id={noteId}
+                   object-api-name="Private_Notes__c"
+                   onsuccess={handleSuccess}
+                   >
+                   <lightning-messages> </lightning-messages>
+                   <lightning-input-field field-name="Contact__c" value={contactId}>
+                   </lightning-input-field>
+                   <lightning-input-field field-name="Subject__c" value={subject}> </lightning-input-field>
+                   <lightning-input-field field-name="Work_Phone__c" value={phone}> </lightning-input-field>
+                   <lightning-input-field field-name="Notes__c" value={notes}> </lightning-input-field>
+                </lightning-record-edit-form>
+             </div>
+             <!-- Modal/Popup Box LWC footer starts here -->
+             <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={handleDialogClose} title="Cancel">Cancel</button>
+                <lightning-button
+                   class="slds-m-top_small"
+                   variant="brand"
+                   onclick={handleSubmit}
+                   name="update"
+                   label={buttonlabel}
+                   >
+                </lightning-button>
+             </footer>
+          </div>
+       </section>
+       <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <footer class="slds-modal__footer">
+       <lightning-button-icon icon-name="utility:jump_to_left"  class="pointer-link" disabled={PreviousData}  onclick={startRec}  alternative-text="Edit!" title="default style" size="x-small"></lightning-button-icon>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <lightning-button-icon icon-name="utility:chevronleft" disabled={PreviousData}  class="pointer-link"  onclick={handlePre}  alternative-text="Edit!" title="default style" size="x-small"></lightning-button-icon>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       Page {pageSize} of {totalCountPage} 
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <lightning-button-icon icon-name="utility:chevronright"  class="pointer-link" disabled={NextData}  onclick={handleNext}  alternative-text="Edit!" title="default style" size="x-small"></lightning-button-icon>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <lightning-button-icon icon-name="utility:jump_to_right"  class="pointer-link" disabled={NextData}  onclick={endRec}  alternative-text="Edit!" title="default style" size="x-small"></lightning-button-icon>
+    </footer>
+ </template>
